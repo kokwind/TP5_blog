@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>ArticleAdd</title>
+
+    <!-- 最新版本的 Bootstrap 核心 CSS 文件 -->
+    <link rel="stylesheet" href="/static/bootstrap/css/bootstrap.min.css" >
+    
+    <!-- 引入jquery文件，务必在bootstrap.min.js之前引入 -->
+    <script src="/static/bootstrap/js/jquery-3.2.1.js" ></script>
+
+    <!-- 最新的 Bootstrap 核心 JavaScript 文件 -->
+    <script src="/static/bootstrap/js/bootstrap.min.js" ></script>
+
+    <script src="/static/js/marked.min.js"></script>
+
+    <style>
+      
+    </style>
+</head>
+
+<body>
+
+    <table class="table table-bordered table-striped table-hover table-condensed">
+        <thead>
+        <tr>
+            <th>tid</th>
+            <th>标签名</th>
+            <th>操作</th>
+        </tr>
+        </thead>
+        
+        <tr>
+            <td>tid</td>
+            <td>tname</td>
+            <td> 
+                <a href="edit">修改</a>
+                 | 
+                <a href="javascript:if(confirm('确定要删除吗?')) location=''">删除</a>
+            </td>
+        </tr>
+    
+    </table>
+
+</body>
+
+</html>

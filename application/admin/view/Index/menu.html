@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>menu</title>
+
+    <!-- 最新版本的 Bootstrap 核心 CSS 文件 -->
+    <link rel="stylesheet" href="/static/bootstrap/css/bootstrap.min.css" >
+    
+    <!-- 引入jquery文件，务必在bootstrap.min.js之前引入 -->
+    <script src="/static/bootstrap/js/jquery-3.2.1.js" ></script>
+
+    <!-- 最新的 Bootstrap 核心 JavaScript 文件 -->
+    <script src="/static/bootstrap/js/bootstrap.min.js" ></script>
+
+    <style rel="stylesheet" type="text/css">
+        body {margin:0px 5px;}
+        img{border:none;}
+        .menuall{text-align:center;width:149px;background:#ffffff;}
+        .menuall div{margin:0px 0 5px 10px;text-align:left;}
+    </style>
+
+    <script type="text/javascript">
+
+        var itemp;
+        var tobj="";
+        itemp="";
+        function leftBgOver(obj){
+            //obj.style.background="url('../images/left_bg02.gif') center no-repeat";
+            $(obj).attr('background','/static/img/images/left_bg02.gif');
+            
+        }
+
+        function leftBgOut(obj,sty){
+            //alert( (sty)?"url(" + sty + ")":"");
+            if (tobj!="")
+            {
+            sty="/static/img/images/left_bg01.gif";
+            obj.style.background= (sty)?"url(" + sty + ")":"";
+            }
+            else 
+            {
+            obj.style.background= (sty)?"url(" + sty + ")":"";
+            }
+        }
+
+        
+    </script>
+</head>
+<body style="background-color:#73A3D4">
+
+    <table border="0" cellpadding="0" cellspacing="0" class="menuall" >
+        
+        <tr>
+            <td>
+                <a href="#g_0" data-toggle="collapse"><img src="/static/img/images/extand.gif" alt="??????" /></a>&nbsp;
+                <a href="javascript:collapseAll()" target="_self"><img src="/static/img/images/collapse.gif" alt="??????" /></a>
+            </td>
+        </tr>
+
+
+        <tr>
+            <td style="cursor:pointer;"><a href="#g_0" data-toggle="collapse"><span><input type="button" value="文章管理"></span></a></td>
+        </tr>
+
+        <tr>
+            <td id="g_0" class="collapse">
+                <table width="100%" align="center" cellpadding="0" cellspacing="0" bgcolor="#FFFFFF">
+                <tbody>
+                    <tr>
+                        <td height="30" align="center" background="/static/img/images/left_bg01.gif" style="cursor:pointer"  onclick="javascript:parent.right.location.href='/admin/article/add';" onMouseOver="leftBgOver(this);" onMouseOut="leftBgOut(this,'images/left_bg01.gif');">
+                            <table cellpadding="0" cellspacing="0" width="100%">
+                                <tr>
+                                    <td width="50">&nbsp;</td>
+                                    <td>添加文章</td>
+                                </tr>
+                            </table>
+                        </td>
+                    </tr>
+            
+                    <tr>
+                        <td height="30" align="center" background="/static/img/images/left_bg01.gif" style="cursor:pointer"  onclick="javascript:parent.right.location.href='/admin/article/index';" onMouseOver="leftBgOver(this);" onMouseOut="leftBgOut(this,'images/left_bg01.gif');">
+                            <table cellpadding="0" cellspacing="0" width="100%">
+                                <tr>
+                                    <td width="50">&nbsp;</td>
+                                    <td>文章列表</td>
+                                </tr>
+                            </table>
+                        </td>
+                    </tr>         
+            
+                    <tr><td height="5"></td></tr>
+                </tbody>
+                </table>
+            </td>
+        </tr>
+
+
+        <tr>
+            <td style="cursor:pointer;"><a href="#g_1" data-toggle="collapse"><span><input type="button" value="标签管理"></span></a></td>
+        </tr>
+
+        <tr>
+            <td id="g_1" class="collapse">
+                <table width="100%" align="center" cellpadding="0" cellspacing="0" bgcolor="#FFFFFF">
+                <tbody>
+                    <tr>
+                        <td height="30" align="center" background="/static/img/images/left_bg01.gif" style="cursor:pointer"  onclick="javascript:parent.right.location.href='/admin/tag/add';" onMouseOver="leftBgOver(this);" onMouseOut="leftBgOut(this,'images/left_bg01.gif');">
+                            <table cellpadding="0" cellspacing="0" width="100%">
+                                <tr>
+                                    <td width="50">&nbsp;</td>
+                                    <td>添加标签</td>
+                                </tr>
+                            </table>
+                        </td>
+                    </tr>
+            
+                    <tr>
+                        <td height="30" align="center" background="/static/img/images/left_bg01.gif" style="cursor:pointer"  onclick="javascript:parent.right.location.href='/admin/tag/index';" onMouseOver="leftBgOver(this);" onMouseOut="leftBgOut(this,'images/left_bg01.gif');">
+                            <table cellpadding="0" cellspacing="0" width="100%">
+                                <tr>
+                                    <td width="50">&nbsp;</td>
+                                    <td>标签列表</td>
+                                </tr>
+                            </table>
+                        </td>
+                    </tr>
+                     
+                    <tr><td height="5"></td></tr>
+                </tbody>
+                </table>
+            </td>
+        </tr>
+
+
+        <tr>
+            <td style="cursor:pointer;"><a href="#g_2" data-toggle="collapse"><span><input type="button" value="分类管理"></span></a></td>
+        </tr>
+  
+        <tr>
+            <td id="g_2" class="collapse">
+                <table width="100%" align="center" cellpadding="0" cellspacing="0" bgcolor="#FFFFFF">
+                <tbody>
+                    <tr>
+                        <td height="30" align="center" background="/static/img/images/left_bg01.gif" style="cursor:pointer"  onclick="javascript:parent.right.location.href='/admin/category/add';" onMouseOver="leftBgOver(this);" onMouseOut="leftBgOut(this,'images/left_bg01.gif');">
+                            <table cellpadding="0" cellspacing="0" width="100%">
+                                <tr>
+                                    <td width="50">&nbsp;</td>
+                                    <td>添加分类</td>
+                                </tr>
+                            </table>
+                        </td>
+                    </tr>
+            
+                    <tr>
+                        <td height="30" align="center" background="/static/img/images/left_bg01.gif" style="cursor:pointer"  onclick="javascript:parent.right.location.href='/admin/category/index';" onMouseOver="leftBgOver(this);" onMouseOut="leftBgOut(this,'images/left_bg01.gif');">
+                            <table cellpadding="0" cellspacing="0" width="100%">
+                                <tr>
+                                    <td width="50">&nbsp;</td>
+                                    <td>分类列表</td>
+                                </tr>
+                            </table>
+                        </td>
+                    </tr>
+                     
+                    <tr><td height="5"></td></tr>
+                </tbody>
+                </table>
+            </td>
+        </tr>
+
+    </table>
+</body>
+</html>

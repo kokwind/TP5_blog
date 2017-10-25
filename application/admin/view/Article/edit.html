@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>ArticleAdd</title>
+
+    <!-- 最新版本的 Bootstrap 核心 CSS 文件 -->
+    <link rel="stylesheet" href="/static/bootstrap/css/bootstrap.min.css" >
+    
+    <!-- 引入jquery文件，务必在bootstrap.min.js之前引入 -->
+    <script src="/static/bootstrap/js/jquery-3.2.1.js" ></script>
+
+    <!-- 最新的 Bootstrap 核心 JavaScript 文件 -->
+    <script src="/static/bootstrap/js/bootstrap.min.js" ></script>
+
+    <script src="/static/js/marked.min.js"></script>
+
+    <style>
+        #markdown{
+            width: 100%;
+            height: 40px;
+            background: #2e6da4;
+            line-height: 40px;
+            color: white;
+            font-size: 20px;
+            margin-bottom: 60px;
+        }
+        #md,#html{
+            height: 510px;
+        }
+        #md{
+            resize: none;
+        }
+        #html{
+            border: solid 1px darkgrey;
+            border-radius: 5px;
+        }
+    </style>
+</head>
+
+<body>
+<div class="container">
+    <form action="edit" method="post">
+        <!--用于判断是否有请求-->
+        <input type="hidden" name="request" value="editpost">
+
+        <div class="row">
+            <span>目前的操作是修改文章</span>
+        </div>
+
+        <div class="row">
+            <div class="col-md-3 col-md-push-1" style="width:180px;height:25px">
+                <div class="input-group">
+                    <span class="input-group-addon" style="width:60px;height:25px;font-size:10px">所属分类</span>
+                    <select class="form-control" name="cid" id="category" style="width:100px;height:30px;font-size:10px" onchange="show_warehouse()">
+                        {volist name='$categoryList' id='category'}
+                        <option style="width:60px;height:25px;font-size:15px" value="{$category.cid}" {if condition="$category.cid eq $editArticle.cid"}selected='selected'{/if}>{$category.cid}{$category.cname}</option>
+                        {/volist}
+                    </select>  
+                </div>   
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-md-4 col-md-offset-1">
+                <div class="form-group">
+                    <label for="">文章标题</label>
+                    <input type="text" name="title" id="title" class="form-control" value='{$editArticle.title}'>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-md-4 col-md-offset-1">
+                <div class="form-group">
+                    <label for="">作者</label>
+                    <input type="text" name="author" id="author" class="form-control" value="{$editArticle.author}">
+                </div>
+            </div>
+        </div>
+        
+        <div class="row"> 
+            <div class="col-md-4">标签</div>
+            <div class="col-md-4">
+                <div class="form-group">
+                    {volist name='tagList' id='tag'}
+                    <label class="checkbox-inline"><input type="checkbox" name="tid[]" value="{$tag.tid}" {if condition="in_array($tag.tid,$editArticle.tnames)"}checked='checked'{/if} >{$tag.tname}</label>
+                    {/volist}
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-md-4 col-md-offset-1">
+                <div class="form-group">
+                    <label for="">关键词</label>
+                    <input type="text" name="keywords" id="keywords" class="form-control" value="{$editArticle.keywords}">
+                </div>
+            </div>
+        </div>
+        
+        <div class="row">
+            <div class="col-md-4 col-md-offset-1">
+                <div class="form-group">
+                    <label for="">描述</label>
+                    <textarea name="description" id="description" cols="25" rows="3" value="{$editArticle.description}"></textarea>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div id="markdown" class="text-center">内容MarkDown解析器</div>
+            
+                <div class="row">
+                    <div class="col-sm-6 col-lg-6 col-md-6">
+                        <textarea id="md" name="content" class="form-control" >{$editArticle.content}</textarea>
+                    </div>
+                    <div id="html" class="col-lg-6 col-sm-6 col-md-6"></div>
+                </div>
+            
+        </div>
+
+        <div class="row">
+            <div class="col-md-4 col-md-offset-1">
+                <div class="form-group">
+                    <span>是否原创</span>
+                    <label class="radio-inline"><input type="radio" name="is_original" value="1" {if condition='$editArticle.is_original eq 1'}checked='checked'{/if}>是</label>
+                    <label class="radio-inline"><input type="radio" name="is_original" value="0" {if condition='$editArticle.is_original eq 0'} checked='checked'{/if}>否</label>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-md-4 col-md-offset-1">
+                <div class="form-group">
+                    <span>是否置顶</span>
+                    <label class="radio-inline"><input type="radio" name="is_top" value="1" {if condition='$editArticle.is_top eq 1'}checked='checked'{/if}>是</label>
+                    <label class="radio-inline"><input type="radio" name="is_top" value="0" {if condition='$editArticle.is_top eq 0'}checked='checked'{/if}>否</label>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-md-4 col-md-offset-1">
+                <div class="form-group">
+                    <span>是否显示</span>
+                    <label class="radio-inline"><input type="radio" name="is_show" value="1" {if condition='$editArticle.is_show eq 1'}checked='checked'{/if}>是</label>
+                    <label class="radio-inline"><input type="radio" name="is_show" value="0" {if condition='$editArticle.is_show eq 0'}checked='checked'{/if}>否</label>
+                </div>
+            </div>
+        </div>
+        
+        <div class="row">
+            <div class="col-md-4 col-md-offset-1">
+                <input class="btn btn-success" type="submit" value="发表">
+            </div>
+        </div>
+    </form>
+<div>
+</body>
+<script>
+    $("#md").on("keyup blur",function () {
+        $('#html').html(marked($("#md").val()))
+    })
+</script>
+
+</html>
