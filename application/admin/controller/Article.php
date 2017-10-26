@@ -13,23 +13,16 @@ class Article extends Controller
     //显示文章列表
     public function index(){
         
-        // $articleList = Db::name('article')->field('aid,title,author,is_original,is_show,is_top,click,addtime')->select();
-        //$total = Db::name('article')->count();
-        // dump($total);
-        // exit;
-
         $articleModel = new AdminArticle;
         $data = $articleModel->getPageDate();
         
         $this->assign('articleList',$data['articleList']);
-        $this->assign('page',$data['page']);
-        
+        $this->assign('categoryList',$data['categoryList']);
+        $this->assign('tagList',$data['tagList']);
+       
         return $this->fetch();
     }
 
-    public function desk(){
-        return $this->fetch();
-    }
 
     //添加文章
     public function add()
@@ -38,9 +31,7 @@ class Article extends Controller
         $request_action = isset($_POST['request']) ? $_POST['request']:'';
         
         if($request_action == 'addpost'){
-            //category:所属分类； title:文章标题；  author：作者；    tid：标签
-            //keywords:关键词;     description:描述      content:内容（markdown）
-            //is_original:是否原创 1,0      is_top：是否置顶 1,0     is_show：是否显示 1,0   
+            
             $request = Request::instance();
             $requestArr = $request->except(['request']);
             $requestArr['tid'] = isset($requestArr['tid']) ? $requestArr['tid']:'';
@@ -58,28 +49,21 @@ class Article extends Controller
             $resCheck = $articleModel->addRule($data);
             if(is_bool($resCheck)){     //成功返回 bool(true)
                 //证明必填内容都填了
-                //恢复标签
-                $data['tid'] = explode(' ',$data['tid']);
-
                 //准备添加文章
-                $resAddArticle = $articleModel->addArticle($data);
+                $resAddArticle = $articleModel->addArticle();
                 if($resAddArticle){
                     //添加成功
-                    //return $this->fetch('admin@index/desk');
-                    return $this->success('文章添加成功','index');
+                    return $this->success('文章添加成功','Article/index');
                 }else{
-                    //必填内容需要补全,输出错误提示
-                    //加载error
+                    //必填内容需要补全,输出错误提示,加载error
                     return $this->error("添加失败");
                 }
 
-            }else if(is_string($resCheck)){     //不成功返回 提示字符串
-                
-                //必填内容需要补全,输出错误提示
-                //加载error
+            }
+            else if(is_string($resCheck)){     //不成功返回 提示字符串
+                //必填内容需要补全,输出错误提示,加载error
                 return $this->error($resCheck);
             }
-
         }else{
             //增加文章界面需要显示的信息
             //可供选择的分类和标签
@@ -127,7 +111,7 @@ class Article extends Controller
 
             }else{
                
-                return $this->error('文章不存在','index');
+                return $this->error('文章不存在','Article/index');
             }
 
         }else if($method == 'POST'){        //post请求执行修改
@@ -155,7 +139,7 @@ class Article extends Controller
                 if($resUpdateArticle){
                     //修改成功
                     //return $this->fetch('admin@index/desk');
-                    return $this->success('文章修改成功','index');
+                    return $this->success('文章修改成功','Article/index');
                 }else{
                     //必填内容需要补全,输出错误提示
                     //加载error
@@ -170,7 +154,7 @@ class Article extends Controller
             }
         }else{
 
-            return $this->error('文章不存在','index');
+            return $this->error('文章不存在','Article/index');
         }
 
     }
@@ -183,9 +167,9 @@ class Article extends Controller
         $articleModel = new AdminArticle;
         $resDelArticle = $articleModel->deleteArticle($requestArr);
         if($resDelArticle){
-            return $this->success('文章删除成功','index');
+            return $this->success('文章删除成功','Article/index');
         }else{
-            return $this->error('文章删除失败','index');
+            return $this->error('文章删除失败','Article/index');
         }
     }
     

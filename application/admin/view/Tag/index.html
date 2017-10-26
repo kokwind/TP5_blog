@@ -12,17 +12,17 @@
             <th>操作</th>
         </tr>
         </thead>
-        
+        {volist name="tagList" id="tag"}
         <tr>
-            <td>tid</td>
-            <td>tname</td>
+            <td>{$tag.tid}</td>
+            <td>{$tag.tname}</td>
             <td> 
-                <a href="edit">修改</a>
+                <a href="{:url('admin/tag/edit',['tid'=>$tag.tid,'tname'=>$tag.tname])}">修改</a>
                  | 
-                <a href="javascript:if(confirm('确定要删除吗?')) location=''">删除</a>
+                <a href="javascript:if(confirm('确定要删除吗?')) location='{:url('admin/tag/delete',['tid'=>$tag.tid])}'">删除</a>
             </td>
         </tr>
-    
+        {/volist}
     </table>
 
 {/block}

@@ -11,6 +11,9 @@ class Tag extends Controller
     //显示现有标签
     public function index(){
         
+        $tagModel = new AdminTag;
+        $data = $tagModel->getAllData();
+        $this->assign('tagList',$data);
         return $this->fetch();
     }
 
@@ -21,16 +24,26 @@ class Tag extends Controller
         $request_action = isset($_POST['request']) ? $_POST['request']:'';
         
         if($request_action == 'addpost'){
-            //category:所属分类； title:文章标题；  author：作者；    tid：标签
-            //keywords:关键词;     description:描述      content:内容（markdown）
-            //is_original:是否原创 1,0      is_top：是否置顶 1,0     is_show：是否显示 1,0   
+            
             $request = Request::instance();
-            echo '请求方法：' . $request->method() . '<br/>';
-            echo '资源类型：' . $request->type() . '<br/>';
-            echo '访问ip地址：' . $request->ip() . '<br/>';
-            echo '是否AJax请求：' . var_export($request->isAjax(), true) . '<br/>';
-            echo '请求参数：';
-            dump($request->param());
+            //实例化标签model
+            $tagModel = new AdminTag;
+            //获得全部的post内容
+            $data = $request->param();
+            //对提交内容进行判断：添加标签内容不能为空
+            $resCheck = $tagModel->addRule($data);
+            if(is_bool($resCheck)){     //成功返回 bool(true)
+                $resAdd = $tagModel->addData();
+                if($resAdd){
+                    return $this->success('标签添加成功','Tag/index');
+                }else{
+                    return $this->error('标签添加失败');
+                }
+            }
+            else if(is_string($resCheck)){     //不成功返回 提示字符串
+                //必填内容需要补全,输出错误提示,加载error
+                return $this->error($resCheck);
+            }
 
         }else{
             return $this->fetch();
@@ -41,31 +54,54 @@ class Tag extends Controller
     //修改标签
     public function edit(){
 
-        //先检查是否有post请求
-        $request_action = isset($_POST['request']) ? $_POST['request']:'';
+        $request = Request::instance();
+        $method = $request->method();
+        $tagModel = new AdminTag;
         
-        if($request_action == 'editpost'){
-            //category:所属分类； title:文章标题；  author：作者；    tid：标签
-            //keywords:关键词;     description:描述      content:内容（markdown）
-            //is_original:是否原创 1,0      is_top：是否置顶 1,0     is_show：是否显示 1,0   
+        //get请求，显示要修改的标签
+        if($method == 'GET'){
+            //实例化请求信息类
             $request = Request::instance();
-            echo '请求方法：' . $request->method() . '<br/>';
-            echo '资源类型：' . $request->type() . '<br/>';
-            echo '访问ip地址：' . $request->ip() . '<br/>';
-            echo '是否AJax请求：' . var_export($request->isAjax(), true) . '<br/>';
-            echo '请求参数：';
-            dump($request->param());
+            //get请求的数据
+            $requestArr = $request->param();        //数组
+            if(array_key_exists('tid',$requestArr) && $requestArr['tid'] != ''){
+                //数组中有标签 tid,同时也传了 tname ，不同去数据库找了
+            
+                $this->assign('tag',$requestArr);
+                return $this->fetch('Tag/edit');
 
-        }else{
-            return $this->fetch();
+            }else{
+
+                return $this->error('标签不存在');
+            }
+        }
+        else if($method == 'POST'){
+            //提交修改结果
+            $resEdit = $tagModel->editData();
+            if($resEdit){
+                return $this->success('标签修改成功','Tag/index');
+            }else{
+                return $this->error('标签修改失败');
+            }
         }
 
     }
 
     //删除标签
     public function delete(){
+        // $request = Request::instance();
+        // $requestArr = $request->param();        //数组
+        // dump($requestArr);
+        // exit;
 
-
+        $tagModel = new AdminTag;
+        $resDel = $tagModel->deleteData();
+        if($resDel){
+            return $this->success('标签删除成功','Tag/index');
+        }else{
+            return $this->error('标签删除失败');
+        }
+        
     }
 
 

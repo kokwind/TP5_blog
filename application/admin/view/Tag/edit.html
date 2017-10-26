@@ -5,7 +5,7 @@
 {block name="main"}
 
 <div class="container">
-    <form action="add" method="post">
+    <form action="{:url('admin/tag/edit')}" method="post">
         <!--用于判断是否有请求-->
         <input type="hidden" name="request" value="addpost">
         
@@ -13,7 +13,9 @@
             <div class="col-md-4 col-md-offset-1">
                 <div class="form-group">
                     <label for="">标签名</label>
-                    <input type="text" name="tag" value="??">
+                    <input type="text" name="tname" value="{$tag.tname}">
+                    <!--用于提交修改 tid-->
+                    <input type="hidden" name="tid" value="{$tag.tid}">
                 </div>
             </div>
         </div>

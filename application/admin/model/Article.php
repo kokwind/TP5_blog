@@ -5,6 +5,7 @@ use think\Model;
 use think\Db;       //使用数据库
 use think\Paginator;     //使用分页
 use think\Validate;     //使用tp5的验证器
+use think\Request;          //获取当前请求信息
 
 class Article extends Model
 {
@@ -35,42 +36,40 @@ class Article extends Model
         }
     
     }
-/*
-    // 自动验证
-    protected $_validate=array(
-        array('tid','require','必须选择栏目'),
-        array('title','require','文章标题必填'),
-        array('author','require','作者必填'),
-        array('content','require','文章内容必填'),
-        );
-*/
 
     //设置自动完成的字段，支持键值对数组和索引数组
     //新增和更新时都会使用
     // 自动完成
     protected $auto = [
-        array('click',0),
-        array('is_delete',0),
-        array('addtime','time()',1,'function'),
-        array('description','getDescription',3,'callback'),
-        array('keywords','comma2coa',3,'callback')
+        'click'=>0,           //新增和修改时，把click字段设置为0
+        'is_delete'=>0,       //新增和修改时，把is_delete字段设置为0
+        'addtime',           //新增时，在addtime字段写入当前时间戳
+        'description',     //新增和修改时,description字段为方法的返回值
+        'keywords'
         ];
 
     // 获得描述；供自动完成调用
-    protected function getDescription($description){
+    protected function setDescriptionAttr(){
+        $description = input('post.description');
         if(!empty($description)){
             return $description;
         }else{
-            $data=I('post.content');
-            $des=htmlspecialchars_decode($data);
-            $des=re_substr(strip_tags($des),0,200,false);
+            $data = input('post.content');
+            $des = htmlspecialchars_decode($data);
+            $des = mb_substr(strip_tags($des),0,200,'utf-8');
             return $des;
         }
     }
 
-    // 顿号转换为英文逗号
-    protected function comma2coa($keywords){
+    // 将keywords的顿号转换为英文逗号
+    protected function setKeywordsAttr(){
+        $keywords = input('post.keywords');
         return str_replace('、', ',', $keywords);
+    }
+
+     // 给添加时间赋值当前时间戳
+     protected function setAddtimeAttr(){
+        return time();
     }
 
 
@@ -91,23 +90,23 @@ class Article extends Model
         //分类：cid        在分类表(tpblog_category)中找     cname
         //标签:tid        在标签表(tpblog_article_tag)中找      tname
 
-        //查出所有的数据
-        //$articleList = Db::name('article')->field('aid,title,author,is_original,is_show,is_top,click,addtime')->select();
-        $total = Db::name('article')->count();
-        // 查询 is_show=1 的用户数据 并且每页显示10条数据 总记录数为 $total
-        $list = Db::name('article')->alias('a')->field('a.aid,title,author,is_original,is_show,is_top,click,addtime,cname,a.cid,tname')->where('is_show',1)->join('tpblog_category c','a.cid=c.cid')->join('tpblog_article_tag at','a.aid=at.aid')->join('tpblog_tag tt','at.tid=tt.tid')->paginate(10,$total);
-        
-        //试着查询其他model的数据表
-        
-        // echo article::getLastSql();
-       
-        // 获取分页显示
-        $page = $list->render();
-        
-        $data['articleList'] = $list;
-        $data['page'] = $page;
+       $articleList = Article::where('is_show',1)->where('is_delete',0)->paginate(10,false,[
+        'type'     => 'Bootstrap',
+        'var_page' => 'page',
+        //'path'=>'javascript:AjaxPage([PAGE]);',
+        'query' => request()->param()
+       ]);
 
-        return $data;
+       //得到 cid,cname
+       $categoryList = model('Category')->all();
+       //得到 aid,tid，tname
+       $tagList = Db::name('article_tag')->alias('at')->field('aid,at.tid,tname')->join('tpblog_tag tt','at.tid=tt.tid')->select();
+       
+       //组合数据
+       $data['articleList'] = $articleList;
+       $data['categoryList'] = $categoryList;
+       $data['tagList'] =$tagList;
+       return $data;
     }
 
     //显示增加文章界面的可供选择的分类和标签
@@ -128,33 +127,28 @@ class Article extends Model
     }
 
     //增加文章功能实现
-    public function addArticle($data)
+    public function addArticle()
     {
-        //实现增加文章
-        //先从数组中移除tid字段，此字段属于表 tpblog_article_tag
-        $articleTagDate['tid'] = $data['tid'];     //为数组
-        if($data['tid']){
-            unset($data['tid']);
-        }
         
-        //插入article表
-        $this->auto=[];
-        $resArticle = Db::name('article')->insert($data);
-        $articleId = Db::name('article')->getLastInsID();       //返回新增数据的自增主键
-        //echo article::getLastSql();
-
-   /*     //插入tpblog_article_tag表的数据
-        $articleTagDate['aid'] = $articleId;
-        dump($articleTagDate);
-        $resTag = Db::name('article_tag')->insert($articleTagDate);
-        echo article::getLastSql();
-        exit;
-    */
-        if($resArticle){
-            return true;
-        }else{
-            return false;
+        //使用模型的data方法批量赋值
+        $this->data($_POST);
+        //过滤post数组中的非数据表字段数据，增加数据，save方法会出发自动完成数据，实现
+        $resAdd = $this->allowField(true)->save();
+        //获取新增文章的自增 aid
+        $articleId = $this->aid;
+       
+        //获取提交传入的数组 tid ,添加到tpblog_article_tag 表
+        $tags = input('post.tid/a');        // '/a'为变量修饰符
+        $tagData = [];
+        for($i=0;$i<count($tags);$i++){
+            $tagData[] = ['aid'=>$articleId,'tid'=>$tags[$i]];
         }
+        //插入标签数组
+        $resTag = Db::name('article_tag')->insertAll($tagData);
+       if(!$resAdd || !$resTag){
+           return false;
+       }
+        return true;
         
     }
 
@@ -211,11 +205,11 @@ class Article extends Model
         if(array_key_exists('aid',$data)){
             //aid字段存在
             //执行删除
-            //删除文章表中的文章
-            $resDelArticle = Db::name('article')->where('aid',$data['aid'])->delete();
+            //删除文章表中的文章,设置 is_show=0,is_delete=1
+            $resDelArticle = Article::where('aid',$data['aid'])->update(['is_show'=>0,'is_delete'=>1]);
             //删除标签表中 aid 的信息
-            $resDelTags = Db::name('article_tag')->where('aid',$data['aid'])->delete();
-            if($resDelArticle && $resDelTags){
+            //$resDelTags = Db::name('article_tag')->where('aid',$data['aid'])->delete();
+            if($resDelArticle){
                 //删除成功
                 return true;
             }else{
