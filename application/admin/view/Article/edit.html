@@ -5,15 +5,15 @@
 {block name="source"}
 
     <!-- 最新版本的 Bootstrap 核心 CSS 文件 -->
-    <link rel="stylesheet" href="/static/bootstrap/css/bootstrap.min.css" >
+    <link rel="stylesheet" href="{:url('/static/bootstrap/css/bootstrap.min.css','','')}" >
     
     <!-- 引入jquery文件，务必在bootstrap.min.js之前引入 -->
-    <script src="/static/bootstrap/js/jquery-3.2.1.js" ></script>
+    <script src="{:url('/static/bootstrap/js/jquery-3.2.1.js','','')}" ></script>
 
     <!-- 最新的 Bootstrap 核心 JavaScript 文件 -->
-    <script src="/static/bootstrap/js/bootstrap.min.js" ></script>
+    <script src="{:url('/static/bootstrap/js/bootstrap.min.js','','')}" ></script>
 
-    <script src="/static/js/marked.min.js"></script>
+    <script src="{:url('/static/js/marked.min.js','','')}"></script>
 
     <style>
         #markdown{
