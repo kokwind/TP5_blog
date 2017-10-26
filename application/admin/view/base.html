@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>{block name="title"}标题{/block}</title>
+{block name="source"}
+    <!-- 最新版本的 Bootstrap 核心 CSS 文件 -->
+    <link rel="stylesheet" href="/static/bootstrap/css/bootstrap.min.css" >
+    
+    <!-- 引入jquery文件，务必在bootstrap.min.js之前引入 -->
+    <script src="/static/bootstrap/js/jquery-3.2.1.js" ></script>
+
+    <!-- 最新的 Bootstrap 核心 JavaScript 文件 -->
+    <script src="/static/bootstrap/js/bootstrap.min.js" ></script>
+{/block}
+
+</head>
+
+<body>
+<!--布局容器-->
+<div class="container-fluid">
+
+<!--基础模板头部-->
+<div class="row" style="height:50px">
+{block name="head"}
+	<div class="col-md-9">
+	<ul class="list-unstyled list-inline">
+		<li><a href="{:url('admin/index/index')}"><span>后台首页</span></a></li>
+		<li><a href="#contentList" data-toggle="collapse"><span>内容管理</span></a></li>
+		<li><a href="#commentList" data-toggle="collapse"><span>评论管理</span></a></li>
+		<li><a href="#recycleList" data-toggle="collapse"><span>回收管理</span></a></li>
+		<li><a href="#setupList" data-toggle="collapse"><span>网站设置</span></a></li>
+	</ul>
+	</div>
+	<div class="col-md-3">
+	<ul class="list-unstyled list-inline">
+		<li class="nt-go-index"><a href="" target="_blank"><span class="fa fa-home"></span> 前台首页</a></li>
+		<li class="nt-sign-out"><a href=""><span class="fa fa-sign-out"></span> 退出</a></li>
+	</ul>
+	</div>
+{/block}
+</div>
+
+<!--基础模板下部，分为左边和右边-->
+<div class="row">
+<!--显示左侧区域-->
+<div class="col-md-2" style="width:180px">
+{block name="left"}
+	<div id='contentList' class="collapse">
+		<h3 class="page-header">文章管理</h3>
+		<ul class="list-unstyled">
+			<li><a href="{:url('admin/article/add')}"><span>添加文章</span></a></li>
+			<li><a href="{:url('admin/article/index')}"><span>文章列表</span></a></li>
+		</ul>
+		<h3 class="page-header">标签管理</h3>
+		<ul class="list-unstyled">
+			<li><a href="{:url('admin/tag/add')}"><span>添加标签</span></a></li>
+			<li><a href="{:url('admin/tag/index')}"><span>标签列表</span></a></li>
+		</ul>
+		<h3 class="page-header">分类管理</h3>
+		<ul class="list-unstyled">
+			<li><a href="{:url('admin/category/add')}"><span>添加分类</span></a></li>
+			<li><a href="{:url('admin/category/index')}"><span>分类列表</span></a></li>
+		</ul>
+	</div>
+	
+	<div id='commentList' class="collapse">
+		<h3 class="page-header">评论管理</h3>
+		<ul class="list-unstyled">
+			<li><a href="{:url('admin/comment/index')}"><span>评论列表</span></a></li>
+		</ul>
+	</div>
+	
+	<div id='recycleList' class="collapse">
+		<h3 class="page-header">回收管理</h3>
+		<ul class="list-unstyled">
+			<li><a href="{:url('admin/recycle/article')}"><span>已删文章</span></a></li>
+			<li><a href="{:url('admin/recycle/comment')}"><span>已删评论</span></a></li>
+			<li><a href="{:url('admin/recycle/link')}"><span>已删友链</span></a></li>
+		</ul>
+	</div>
+	
+	<div id='setupList' class="collapse">
+		<h3 class="page-header">友情链接</h3>
+		<ul class="list-unstyled">
+			<li><a href="{:url('admin/link/add')}"><span>添加友链</span></a></li>
+			<li><a href="{:url('admin/link/index')}"><span>友链列表</span></a></li>
+		</ul>
+	</div>
+{/block}
+</div>
+<!--左侧区域结束-->
+
+	
+<!--主体内容显示-->
+<div class="col-md-10">
+	{block name="main"}主内容{/block}
+</div>
+
+<!--基础模板下部结束-->
+</div>
+<!--布局容器结束-->
+</div>
+
+</body>
+</html>

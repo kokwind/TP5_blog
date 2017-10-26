@@ -1,11 +1,8 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>ArticleAdd</title>
+{extend name="base" /}
 
+{block name="title"}后台管理{/block}
+
+{block name="source"}
     <!-- 最新版本的 Bootstrap 核心 CSS 文件 -->
     <link rel="stylesheet" href="/static/bootstrap/css/bootstrap.min.css" >
     
@@ -38,9 +35,10 @@
             border-radius: 5px;
         }
     </style>
-</head>
+{/block}
 
-<body>
+{block name="main"}
+
 <div class="container">
     <form action="add" method="post">
         <!--用于判断是否有请求-->
@@ -155,11 +153,11 @@
         </div>
     </form>
 <div>
-</body>
+
 <script>
     $("#md").on("keyup blur",function () {
         $('#html').html(marked($("#md").val()))
     })
 </script>
 
-</html>
+{/block}
