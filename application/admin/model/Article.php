@@ -220,5 +220,32 @@ class Article extends Model
             return false;
         }
     }
+
+    public function recycleArticle($data)
+    {
+        if(array_key_exists('aid',$data)){
+            //文章 aid存在
+            if($data['status'] == 0){
+                //恢复文章，is_delete 设为 0
+                $res = $this->where('aid',$data['aid'])->update(['is_delete'=>0,'is_show'=>1]);
+                return $res;
+            }
+            else if($data['status'] == 1){
+                //彻底删除文章
+                //删除文章表信息
+                $resArticle = $this->where('aid',$data['aid'])->delete();
+
+                //删除 tpblog_article_tag 中的 tid 标签信息
+                $resTag = Db::name('article_tag')->where('aid',$data['aid'])->delete();
+
+                if($resArticle && $resTag){
+                    return true;
+                }else{
+                    return false;
+                }
+                
+            }
+        }
+    }
     
 }

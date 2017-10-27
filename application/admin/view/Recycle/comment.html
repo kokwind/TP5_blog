@@ -4,6 +4,34 @@
 
 {block name="main"}
 
-recycle comment
+<table class="table table-bordered table-striped table-hover table-condensed">
+    <thead>
+        <tr>
+            <th width="5%">cmtid</th>
+            <th width="10%">评论用户</th>
+            <th width="15%">评论时间</th>
+            <th width="50%">内容</th>
+            <th width="10%">是否审核</th>
+            <th width="10%">操作</th>
+        </tr>
+    </thead>
+        
+        {volist name='recycleComment' id='comment'}
+        <tr>
+            <td>{$comment.cmtid}</td>
+            <td>{$comment.ouid}</td>
+            <td>{$comment.date|date="Y-m-d H:i:s",###}</td>
+            <td>{$comment.content}</td>
+            <th>{if condition="$comment.status == 1"} √ {else /} × {/if}</th>
+            <td> 
+            <a href="{:url('admin/comment/recycle',['cmtid'=>$comment.cmtid,'status'=>0])}">恢复</a>
+            | 
+            <a href="javascript:if(confirm('确定要删除吗?')) location='{:url('admin/comment/recycle',['cmtid'=>$comment.cmtid,'status'=>1])}'">彻底删除</a>
+            </td>
+        </tr> 
+        {/volist} 
+</table>
+
+<div>{$recycleComment->render()}</div>
 
 {/block}

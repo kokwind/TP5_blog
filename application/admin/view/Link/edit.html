@@ -1,0 +1,38 @@
+{extend name="base" /}
+
+{block name="title"}后台管理{/block}
+
+{block name="main"}
+
+<form class="form-group" action="" method="post"> 
+    <input type="hidden" name="lid" value="{$link.lid}">
+    
+    <table class="table table-bordered table-striped table-hover table-condensed">
+        <tr>
+            <th>链接名</th>
+            <td> <input class="form-control modal-sm" type="text" name="lname" value="{$link.lname}"></td>
+        </tr>
+        
+        <tr>
+            <th>链接地址</th>
+            <td> <input class="form-control modal-sm" type="text" name="url" value="{$link.url}"></td>
+        </tr>
+        
+        <tr>
+            <th>是否显示</th>
+            <td> 
+                <span class="inputword">是</span> 
+                <input class="icheck" type="radio" name="is_show" value="1" {if condition="$link.is_show == 1"}checked="checked"{/if} > &emsp; 
+                <span class="inputword">否</span> 
+                <input class="icheck" type="radio" name="is_show" value="0" {if condition="$link.is_show == 0"}checked="checked"{/if} >
+            </td>
+        </tr>
+        
+        <tr>
+            <th></th>
+            <td> <input class="btn btn-success" type="submit" value="修改"></td>
+        </tr>
+    </table>
+</form>
+
+{/block}

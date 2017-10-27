@@ -10,34 +10,33 @@
         
     <table class="table table-bordered table-hover">
         
+        <!--要修改的数据的cid-->
+        <input type="hidden" name="cid" value="{$editCategory.cid}">
+
         <tr>
             <th>分类名</th>
-            <td><input class="form-control modal-sm" type="text" name="cname"></td>
+            <td><input class="form-control modal-sm" type="text" name="cname" value="{$editCategory.cname}"></td>
         </tr>
         
         <tr>
-            <th>所属栏目</th>
+            <th>已有分类</th>
             <td> 
-                <select class="form-control modal-sm" name="pid">
-                <option value="0">顶级栏目</option>
-                <option value="cid">name</option>
+                <select class="form-control modal-sm" name="exist">
+                    {volist name='allCategory' id='category'}
+                    <option value="{$category.cid}" >{$category.cname}</option>
+                    {/volist}
                 </select>
             </td>
         </tr>
         
         <tr>
-            <th>排序</th>
-            <td><input class="form-control modal-sm" type="text" name="sort"></td>
-        </tr>
-        
-        <tr>
             <th>关键词</th>
-            <td><input class="form-control modal-sm" type="text" name="keywords"></td>
+            <td><input class="form-control modal-sm" type="text" name="keywords" value="{$editCategory.keywords}"></td>
         </tr>
         
         <tr>
             <th>描述</th>
-            <td><textarea class="form-control modal-sm" name="description"></textarea></td>
+            <td><textarea class="form-control modal-sm" name="description" >{$editCategory.description}</textarea></td>
         </tr>
         
         <tr>

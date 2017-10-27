@@ -4,6 +4,30 @@
 
 {block name="main"}
 
-recycle article
+<table class="table table-bordered table-striped table-hover table-condensed">
+    <thead>
+        <tr>
+            <th width="5%">aid</th>
+            <th width="15%">所属分类</th>
+            <th width="20%">作者</th>
+            <th width="30%">标题</th>
+            <th width="30%">操作</th>
+        </tr>
+    </thead>
+        {volist name='recycleArticle' id='article'}
+        <tr>
+            <td>{$article.aid}</td>
+            <td>{$article.cname}</td>
+            <td>{$article.author}</td>
+            <td>{$article.title}</td>
+            <td> 
+            <a href="{:url('admin/article/recycle',['aid'=>$article.aid,'status'=>0])}">恢复</a>
+            | 
+            <a href="javascript:if(confirm('确定要删除吗?')) location='{:url('admin/article/recycle',['aid'=>$article.aid,'status'=>1])}'">彻底删除</a>
+            </td>
+        </tr>
+        {/volist}
+</table>
+<div>{$recycleArticle->render()}</div>
 
 {/block}

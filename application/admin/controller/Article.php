@@ -173,5 +173,18 @@ class Article extends Controller
         }
     }
     
+    public function recycle()
+    {
+        //根据recycle传的状态判断： 0 恢复文章； 1 彻底删除文章
+        $request = Request::instance();
+        $requestArr = $request->param();    //只有一个文章aid 的数组
+        $articleModel = new AdminArticle;
+        $resRecycle = $articleModel->recycleArticle($requestArr);
+        if($resRecycle){
+            return $this->success('回收站操作成功','Recycle/article');
+        }else{
+            return $this->error('回收站操作失败','Recycle/article');
+        }
+    }
     
 }

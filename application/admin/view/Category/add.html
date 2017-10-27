@@ -14,22 +14,18 @@
             <th>分类名</th>
             <td><input class="form-control modal-sm" type="text" name="cname"></td>
         </tr>
-        
+
         <tr>
-            <th>所属栏目</th>
-            <td> 
-                <select class="form-control modal-sm" name="pid">
-                <option value="0">顶级栏目</option>
-                <option value="cid">name</option>
+            <th>已有分类</th>
+            <td>
+                <select class="form-control modal-sm" name="exist">
+                    {volist name='allCategory' id='category'}
+                    <option value="{$category.cid}" >{$category.cname}</option>
+                    {/volist}
                 </select>
             </td>
         </tr>
-        
-        <tr>
-            <th>排序</th>
-            <td><input class="form-control modal-sm" type="text" name="sort"></td>
-        </tr>
-        
+
         <tr>
             <th>关键词</th>
             <td><input class="form-control modal-sm" type="text" name="keywords"></td>

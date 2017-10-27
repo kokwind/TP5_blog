@@ -11,7 +11,6 @@
         <thead>
         <tr>
             <th width="10%">cid</th>
-            <th width="10%">排序</th>
             <th width="15%">分类名</th>
             <th width="25%">关键词</th>
             <th width="25%">描述</th>
@@ -19,25 +18,20 @@
         </tr>
         </thead>
         
+        {volist name='allCategory' id='category'}
         <tr>
-            <td>cid</td>
-            <td> <input class="form-control" type="text" name="cid}" value="sort"></td>
-            <td>name</td>
-            <td>keywords</td>
-            <td>description</td>
+            <td>{$category.cid}</td>
+            <td>{$category.cname}</td>
+            <td>{$category.keywords}</td>
+            <td>{$category.description}</td>
             <td> 
-            <a href="">添加子分类</a>
+                <a href="{:url('admin/category/edit',['cid'=>$category.cid])}">修改</a>
                 | 
-                <a href="{:url('admin/category/edit')}">修改</a>
-                | 
-                <a href="javascript:if(confirm('确定要删除吗?')) location='dlete'">删除</a>
+                <a href="javascript:if(confirm('确定要删除吗?')) location='{:url('admin/category/delete',['cid'=>$category.cid])}'">删除</a>
             </td>
         </tr>
-            
-        <tr>
-            <td></td>
-            <td> <input class="btn btn-success" type="submit" value="排序"></td>
-        </tr>
+        {/volist}    
+        
     </table>
 </form>
 
