@@ -1,7 +1,7 @@
 <?php
 namespace app\index\controller;
 use think\Controller;
-use app\index\model\Index as IndexIndex;
+//use app\index\model\Index as IndexIndex;
 use think\Request;          //获取当前请求信息
 use app\common\model\Article as IndexArticle;
 use app\index\model\Archive as IndexArchive;
@@ -13,12 +13,12 @@ class Index extends Controller
 {
     public function index()
     {
-        $indexModel = new IndexIndex;
-        $data = $indexModel->getAllArticle();
+        $indexModel = new IndexArticle;
+        $data = $indexModel->getPageDate();
             
-        $this->assign('articleAll',$data['articleAll']);
-        $this->assign('tagAll',$data['tagAll']);
-        $this->assign('categoryAll',$data['categoryAll']);
+        $this->assign('articleAll',$data['articleList']);
+        $this->assign('tagAll',$data['tagList']);
+        $this->assign('categoryAll',$data['categoryList']);
         return $this->fetch('Index/index');
 
     }
