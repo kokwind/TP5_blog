@@ -21,12 +21,12 @@
                     <p>
                        可能为空{$articleNow.description}
                     </p>
-                    <a class="readmore" href="">Read More</a>
+                    <a class="readmore" href="{:url('index/article/index',['aid'=>$articleNow.aid])}">Read More</a>
                     
                     <footer>
                         {volist name='tagAll' id='tagNow'}
                         {if condition="$tagNow.aid == $articleNow.aid"}
-                        <a class="word-keep" href="{:url('index/tag/eachTag',['tid'=>$tagNow.tid])}">
+                        <a class="word-keep" href="{:url('index/tag/index',['tid'=>$tagNow.tid])}">
                         <span class="octicon octicon-tag"></span>&nbsp;{$tagNow.tname}
                         </a>
                         {/if}
@@ -34,14 +34,13 @@
                         &nbsp;&nbsp;&nbsp;
                         {volist name='categoryAll' id='categoryNow'}
                         {if condition="$categoryNow.cid == $articleNow.cid"}
-                        <a class="word-keep" href="{:url('index/category/eachCategory',['cid'=>$categoryNow.cid])}">
+                        <a class="word-keep" href="{:url('index/category/list',['cid'=>$categoryNow.cid])}">
                         <span class="octicon octicon-repo"></span>{$categoryNow.cname}
                         </a>
                         {/if}
                         {/volist}
                         <span class="word-keep pull-right">
-                            <a href=""><span class="octicon octicon-comment"></span>&nbsp;Comment</a>
-                            <a href=""><span class="octicon octicon-file-symlink-file"></span>&nbsp;Share</a>
+                            <a href="{:url('index/article/index',['aid'=>$articleNow.aid])}"><span class="octicon octicon-comment"></span>&nbsp;Comment</a>
                         </span>
                     </footer>
                 </div>

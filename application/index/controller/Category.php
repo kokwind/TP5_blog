@@ -14,8 +14,9 @@ class Category extends Controller
             
         $this->assign('articleAll',$data['articleAll']);
         $this->assign('tagAll',$data['tagAll']);
-        $this->assign('categoryAll',$data['categoryAll']);
-        $this->assign('categoryNum',$data['categoryNum']);
+        //$this->assign('categoryAll',$data['categoryAll']);
+        //$this->assign('categoryNum',$data['categoryNum']);
+        $this->assign('categoryTotal',$data['categoryTotal']);
         
         return $this->fetch('Category/index');
 
@@ -32,8 +33,9 @@ class Category extends Controller
             if($data['articleAll']){
                 $this->assign('articleAll',$data['articleAll']);
                 $this->assign('tagAll',$data['tagAll']);
-                $this->assign('categoryAll',$data['categoryAll']);
-                $this->assign('categoryNum',$data['categoryNum']);
+                //$this->assign('categoryAll',$data['categoryAll']);
+                //$this->assign('categoryNum',$data['categoryNum']);
+                $this->assign('categoryTotal',$data['categoryTotal']);
     
                 return $this->fetch('Category/index');
             }else{

@@ -20,14 +20,18 @@ class Tag extends Model
         $articleList = Db::name('article')->alias('a')->field('a.aid,title,addtime,tid')->
         join('tpblog_article_tag at','at.aid=a.aid')->where('is_show',1)->where('is_delete',0)->select();
         //获取每种标签文章数目
-        $tagNum = Db::name('article_tag')->field('tid,count(aid) AS count')->group('tid')->select();
+        //$tagNum = Db::name('article_tag')->field('tid,count(aid) AS count')->group('tid')->select();
         //需要的标签总数
-        $tagAll = Db::name('tag')->select();
-        
+        //$tagAll = Db::name('tag')->select();
+        //tname,tid,num
+        $tagTotal = Db::name('article_tag')->alias('at')->field('tname,t.tid,count(at.aid) as num')->join('tpblog_tag t','at.tid=t.tid')->join('tpblog_article a','a.aid=at.aid')->where('is_show',1)->where('is_delete',0)->group('tid')->select();
+        //dump($tagTotal);
+        //exit;
         //合并数据
         $data['articleList'] = $articleList;
-        $data['tagAll'] = $tagAll;
-        $data['tagNum'] = $tagNum;
+        //$data['tagAll'] = $tagAll;
+        //$data['tagNum'] = $tagNum;
+        $data['tagTotal'] = $tagTotal;
         
         return $data;
         

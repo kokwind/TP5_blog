@@ -6,23 +6,25 @@
 
 <div class="main">
     <div class="container">
-        <div class="row">
+        <div class="row" >
             <div class="content col-lg-9">
                 <div class="sheet post">
                     <header>
-                    <h2>记一次在spring-mvc中踩坑的经历</h2>
+                    <h2>{$article.title}</h2>
                     <p class="post-meta">
-                        <span class="octicon octicon-clock"></span> May 27, 2017
+                        <span class="octicon octicon-clock"></span> {$article.addtime|date="Y-m-d",###}
                     </p>
                     <p class="post-tag">
                         <span>
-                            <a href="http://blog.rainyalley.com/category/#java">
-                            <span class="octicon octicon-list-unordered"></span>&nbsp;分类
+                            <a href="{:url('index/category/list',['cid'=>$category.cid])}">
+                            <span class="octicon octicon-list-unordered"></span>&nbsp;{$category.cname}
                             </a>
                         </span>
                         <span>
-                            <a class="word-keep" href="http://blog.rainyalley.com/tags/#spring">
-                            <span class="octicon octicon-tag"></span>&nbsp;标签
+                            {volist name='tags' id='tag'}
+                            <a class="word-keep" href="{:url('index/tag/index',['tid'=>$tag.tid])}">
+                            <span class="octicon octicon-tag"></span>&nbsp;{$tag.tname}
+                            {/volist}
                             </a>                 
                         </span>
                     </p>
@@ -31,7 +33,7 @@
                     <hr class="boundary">
             
                     <article>
-                        <p>内容主体</p>    
+                        {$article.content}    
                     </article>
             
                     <hr class="boundary">    

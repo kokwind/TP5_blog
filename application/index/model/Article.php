@@ -20,13 +20,15 @@ class Article extends Model
         $article = DB::name('article')->alias('a')->field('aid,title,author,content,a.keywords,click,addtime,a.cid,cname')->
         join('tpblog_category tc','a.cid=tc.cid')->where('aid',$aid)->find();
         //需要的标签名称
-        $tags = Db::name('article_tag')->alias('at')->join('tpblog_tag tt','at.tid=tt.tid')->where('aid',$aid)->find();
-        
+        $tags = Db::name('article_tag')->alias('at')->join('tpblog_tag tt','at.tid=tt.tid')->where('aid',$aid)->select();
+        //需要的分类信息   cname,cid
+        $category = Db::name('category')->alias('c')->field('cname,c.cid')->join('tpblog_article a','c.cid=a.cid')->where('aid',$aid)->find();
         //转义文章内容
         $article['content'] = Markdown::defaultTransform($article['content']);
-        
+    
         $data['article'] = $article;
         $data['tags'] = $tags;
+        $data['category'] = $category;
        
         return $data;
     }

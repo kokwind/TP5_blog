@@ -32,17 +32,15 @@ class Category extends Model
         //显示主页的全部文章
         //需要的信息:文章表信息 tpblog_article  标签名 tpblog_article ==> tpblog_tag
         $articleAll = Db::name('article')->where('is_show',1)->where('is_delete',0)->select();
-        //获取文章分类数
-        $categoryNum = Db::name('article')->field('cid,count(aid) AS count')->group('cid')->select();
         //需要的标签名称
         $tagAll = Db::name('article_tag')->alias('at')->join('tpblog_tag tt','at.tid=tt.tid')->select();
-        //需要的分类信息
-        $categoryAll = Db::name('category')->field('cid,cname')->select();
+        //分类的总数信息 cname,cid,num
+        $categoryTotal = $this->alias('c')->field('cname,c.cid,count(aid) as num')->join('tpblog_article a','c.cid=a.cid')->where('a.is_show',1)->where('a.is_delete',0)->group('c.cid')->select();
+        
         //合并数据
         $data['articleAll'] = $articleAll;
         $data['tagAll'] = $tagAll;
-        $data['categoryAll'] = $categoryAll;
-        $data['categoryNum'] = $categoryNum;
+        $data['categoryTotal'] = $categoryTotal;
         
         return $data;
         
@@ -54,16 +52,20 @@ class Category extends Model
         //需要的信息:文章表信息 tpblog_article  标签名 tpblog_article ==> tpblog_tag
         $articleAll = Db::name('article')->where('cid',$cid)->where('is_show',1)->where('is_delete',0)->select();
         //获取文章分类数
-        $categoryNum = Db::name('article')->field('cid,count(aid) AS count')->group('cid')->select();
+        //$categoryNum = Db::name('article')->field('cid,count(aid) AS count')->group('cid')->select();
         //需要的标签名称
         $tagAll = Db::name('article_tag')->alias('at')->join('tpblog_tag tt','at.tid=tt.tid')->select();
         //需要的分类信息
-        $categoryAll = Db::name('category')->field('cid,cname')->select();
+        //$categoryAll = Db::name('category')->field('cid,cname')->select();
+        //分类的总数信息 cname,cid,num
+        $categoryTotal = $this->alias('c')->field('cname,c.cid,count(aid) as num')->join('tpblog_article a','c.cid=a.cid')->where('c.cid',$cid)->where('a.is_show',1)->where('a.is_delete',0)->group('c.cid')->select();
+        
         //合并数据
         $data['articleAll'] = $articleAll;
         $data['tagAll'] = $tagAll;
-        $data['categoryAll'] = $categoryAll;
-        $data['categoryNum'] = $categoryNum;
+        //$data['categoryAll'] = $categoryAll;
+        //$data['categoryNum'] = $categoryNum;
+        $data['categoryTotal'] = $categoryTotal;
         
         return $data;
         

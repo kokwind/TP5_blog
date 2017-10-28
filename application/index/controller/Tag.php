@@ -11,10 +11,11 @@ class Tag extends Controller
     {
         $tagModel = new IndexTag;
         $data = $tagModel->getAllTag();
-        if($data['tagAll']){
+        if($data['tagTotal']){
             $this->assign('articleList',$data['articleList']);
-            $this->assign('tagAll',$data['tagAll']);
-            $this->assign('tagNum',$data['tagNum']);
+            //$this->assign('tagAll',$data['tagAll']);
+            //$this->assign('tagNum',$data['tagNum']);
+            $this->assign('tagTotal',$data['tagTotal']);
             
             return $this->fetch('Tag/index');
         }else{

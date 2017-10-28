@@ -21,7 +21,8 @@ class Article extends Controller
             }else{
                 $this->assign('article',$data['article']);
                 $this->assign('tags',$data['tags']);
-    
+                $this->assign('category',$data['category']);
+                
                 return $this->fetch('Article/index');
             }
         }else{

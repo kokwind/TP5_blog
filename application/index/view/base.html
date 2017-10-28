@@ -89,32 +89,36 @@
 <!--右侧-->
 <div class="col-md-4">
 {block name="right"}
-<div class="main">
+<div class="main " >
 	<!--开始右侧页面的显示-->
 <div class="row index">
+    <div style="float:left">&nbsp;&nbsp;&nbsp;</div>
     <div class=" col-lg-10" >
+        
 		<!--右侧-->
         <article>
             <div class="module">
                 <span class="title">分类</span>
-                <div class="row">
-                <a href="">
-                <div class="col-md-8" >分类1</div>
-                </a>
-                <div class="col-md-4" >数量</div>
-                </div>
+                {php}
+                $data = model('Category')->getAllCategory();
+                $categoryTotal = $data['categoryTotal'];
+                foreach($categoryTotal as $k => $v){
+                    echo "<div class='row'><a href='/index/category/list/cid/".$v['cid']."'><div class='col-md-8' >".$v['cname']."</div></a><div class='col-md-4' >".$v['num']."</div></div>";
+                }
+                {/php}
             </div>
         </article>
 			
         <article>
             <div class="module">
-                <span class="title">归档</span>                
-                <div class="row">
-                <a href="">
-                <div class="col-md-8" >分类1</div>
-                </a>
-                <div class="col-md-4" >数量</div>
-                </div>
+                <span class="title">归档</span>
+                {php}
+                $data = model('Archive')->getAllArchive();
+                $archiveTotal = $data['yearNum'];
+                foreach($archiveTotal as $k => $v){
+                    echo "<div class='row'><a href='/index/archive/index.html#".$v['year']."'><div class='col-md-8' >".$v['year']."</div></a><div class='col-md-4' >".$v['num']."</div></div>";
+                }
+                {/php}
             </div>
         </article>
 			
@@ -122,15 +126,18 @@
             <div class="module">
                 <span class="title">标签</span>
                 <div class="row">
-                <div class="col-md-4" ><a href=""><span>标签</span>&nbsp;<span>num</span></a></div>
-                <div class="col-md-4" ><a href=""><span>标签</span>&nbsp;<span>num</span></a></div>
-                <div class="col-md-4" ><a href=""><span>标签</span>&nbsp;<span>num</span></a></div>
-                <div class="col-md-4" ><a href=""><span>标签</span>&nbsp;<span>num</span></a></div>
-                <div class="col-md-4" ><a href=""><span>标签</span>&nbsp;<span>num</span></a></div>
+                    {php}
+                    $data = model('Tag')->getAllTag();
+                    $tagTotal = $data['tagTotal'];
+                    foreach($tagTotal as $k => $v){
+                        echo "<div class='col-md-6' ><a href='/index/tag/index.html#".$v['tid']."'><span>".$v['tname']."</span>&nbsp;<span>".$v['num']."</span></a></div>";
+                    }
+                    {/php}
                 </div>
             </div>
         </article>
-	</div>
+    </div>
+    
 </div>
 </div>
 {/block}

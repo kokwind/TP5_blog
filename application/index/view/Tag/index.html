@@ -35,13 +35,11 @@
                     <article >
                         <div>
                             <ul class="tag-box inline">
-                                {volist name='tagAll' id='tagList'}
+                                {volist name='tagTotal' id='tagList'}
                                 <li>
                                     <a href="#{$tagList.tid}">{$tagList.tname}
-                                    <span>
-                                        {volist name='tagNum' id='num'}
-                                        {if condition="$num.tid == $tagList.tid"}{$num.count}{else /}0{/if}
-                                        {/volist}
+                                    <span>   
+                                        {$tagList.num}   
                                     </span>
                                     </a>
                                 </li>                                
@@ -50,7 +48,7 @@
                         </div>
 
                         <div>
-                            {volist name='tagAll' id='tagList'}
+                            {volist name='tagTotal' id='tagList'}
                             <h2 id="{$tagList.tid}">{$tagList.tname}</h2>
                                 {volist name='articleList' id='article'}
                                 {if condition="$article.tid == $tagList.tid"}
