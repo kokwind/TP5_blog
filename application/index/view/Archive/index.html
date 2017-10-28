@@ -1,0 +1,77 @@
+{extend name="base" /}
+
+{block name="title"}个人博客首页{/block}
+
+{block name="source"}
+<link rel="stylesheet" href="{:url('/static/bootstrap/css/bootstrap.min.css','','')}"/>
+<link rel="stylesheet" href="{:url('/static/octicons/octicons.css','','')}" >
+<link rel="stylesheet" type="text/css" href="{:url('/static/css/style.css','','')}" />
+
+<link rel="stylesheet" type="text/css" href="{:url('/static/css/article-list.css','','')}" />
+<link rel="stylesheet" type="text/css" href="{:url('/static/css/tagCloud.css','','')}" />
+<link rel="stylesheet" type="text/css" href="{:url('/static/css/tags.css','','')}" />
+
+<!-- 引入jquery文件，务必在bootstrap.min.js之前引入 -->
+<script src="{:url('/static/bootstrap/js/jquery-3.2.1.js','','')}" ></script>
+
+<!-- 最新的 Bootstrap 核心 JavaScript 文件 -->
+<script src="{:url('/static/bootstrap/js/bootstrap.min.js','','')}" ></script>
+
+{/block}
+
+{block name="main"}
+
+<div class="main">
+    <div class="container-fluid" >
+        <div class="row">
+            <div class="content">
+                <div class="sheet">
+                    <header>
+                        <h1>日期归档</h1>
+                    </header>
+
+                    <hr>
+                    
+                    <article >
+                        <div>
+                            <ul class="tag-box inline">
+                                {volist name='yearNum' id='yearList'}
+                                <li>
+                                    <a href="#{$yearList.year}">{$yearList.year}
+                                    <span>
+                                        {$yearList.num}
+                                    </span>
+                                    </a>
+                                </li>                                
+                                {/volist}
+                            </ul>
+                        </div>
+
+                        <div>
+                            {volist name='yearNum' id='yearList'}
+                            <h2 id="{$yearList.year}">{$yearList.year}</h2>
+                                {volist name='articleList' id='article'}
+                                {if condition="$article.year == $yearList.year"}
+                                <ul>                   
+                                    <li itemscope><span class="entry-date">{$article.addtime|date="Y-m-d",###}</span> &raquo; <a href="{:url('index/article/index',['aid'=>$article.aid])}">{$article.title}</a></li>
+                                </ul>
+                                {/if}
+                                {/volist}
+                            {/volist}                            
+                        </div>
+                    </article>
+                </div>
+            </div>
+	    </div>
+    </div>
+	
+	
+    <div class="page-scrollTop" data-toggle="tooltip" data-placement="top" title="Top">
+        <a href="javascript:void(0);">
+            <div class="arrow"></div>
+            <div class="stick"></div>
+        </a>
+    </div>
+</div>
+
+{/block}

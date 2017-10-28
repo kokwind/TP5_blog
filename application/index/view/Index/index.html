@@ -1,0 +1,63 @@
+{extend name="base" /}
+
+{block name="title"}个人博客首页{/block}
+
+{block name="main"}
+
+<div class="main">
+    <!--开始正文页面的显示-->
+    <div class="row index">
+      <div class="col-sm-offset-1">
+
+        {volist name='articleAll' id='articleNow'}
+        <section class="category-slice" post-cate="All">
+        <!--第一篇博客显示-->
+            <article>
+                <header>
+                    <span class="octicon octicon-calendar"></span>&nbsp;<span>{$articleNow.addtime|date="Y-m-d",###}</span>
+                </header>
+                <div class="module">
+                    <a class="title" href="{:url('index/article/index',['aid'=>$articleNow.aid])}">{$articleNow.title}</a>
+                    <p>
+                       可能为空{$articleNow.description}
+                    </p>
+                    <a class="readmore" href="">Read More</a>
+                    
+                    <footer>
+                        {volist name='tagAll' id='tagNow'}
+                        {if condition="$tagNow.aid == $articleNow.aid"}
+                        <a class="word-keep" href="{:url('index/tag/eachTag',['tid'=>$tagNow.tid])}">
+                        <span class="octicon octicon-tag"></span>&nbsp;{$tagNow.tname}
+                        </a>
+                        {/if}
+                        {/volist}
+                        &nbsp;&nbsp;&nbsp;
+                        {volist name='categoryAll' id='categoryNow'}
+                        {if condition="$categoryNow.cid == $articleNow.cid"}
+                        <a class="word-keep" href="{:url('index/category/eachCategory',['cid'=>$categoryNow.cid])}">
+                        <span class="octicon octicon-repo"></span>{$categoryNow.cname}
+                        </a>
+                        {/if}
+                        {/volist}
+                        <span class="word-keep pull-right">
+                            <a href=""><span class="octicon octicon-comment"></span>&nbsp;Comment</a>
+                            <a href=""><span class="octicon octicon-file-symlink-file"></span>&nbsp;Share</a>
+                        </span>
+                    </footer>
+                </div>
+            </article>
+        <!--第一篇博客结束位置-->
+        </section>
+        {/volist}
+
+        <div class="pad-mid"></div>
+
+        <nav class="text-center">
+            {$articleAll->render()}
+        </nav>
+         
+        </div>
+    </div>
+</div>
+
+{/block}

@@ -1,0 +1,106 @@
+{extend name="base" /}
+
+{block name="title"}个人博客首页{/block}
+
+{block name="source"}
+<link rel="stylesheet" href="{:url('/static/bootstrap/css/bootstrap.min.css','','')}"/>
+<link rel="stylesheet" href="{:url('/static/octicons/octicons.css','','')}" >
+<link rel="stylesheet" type="text/css" href="{:url('/static/css/style.css','','')}" />
+
+<link rel="stylesheet" type="text/css" href="{:url('/static/css/article-list.css','','')}" />
+<!-- 引入jquery文件，务必在bootstrap.min.js之前引入 -->
+<script src="{:url('/static/bootstrap/js/jquery-3.2.1.js','','')}" ></script>
+
+<!-- 最新的 Bootstrap 核心 JavaScript 文件 -->
+<script src="{:url('/static/bootstrap/js/bootstrap.min.js','','')}" ></script>
+
+{/block}
+
+{block name="main"}
+
+<div class="main">
+    <!--开始正文页面的显示-->
+    <div class="row index">
+        <div class="col-sm-offset-1">
+
+            <div class="dropdown" >
+                <button class="btn btn-default dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+                    <span class="octicon octicon-list-unordered"></span>&nbsp;Categories
+                    <span class="caret"></span>
+                </button>
+                <ul class="dropdown-menu" aria-labelledby="dropdownMenu1">
+                    <li>
+                        <a href="{:url('index/category/index')}" class="categories-item" >
+                            All&nbsp;
+                            <span class="categories-badge"> all
+                            
+                            </span>
+                        </a>
+                    </li>
+                    {volist name='categoryAll' id='category'}
+                    <li>
+                        <a href="{:url('index/category/list',['cid'=>$category.cid])}" class="categories-item" >
+                            {$category.cname}&nbsp;
+                            <span class="categories-badge"> 
+                            {volist name='categoryNum' id='num'}
+                            {if condition="$num.cid == $category.cid"}
+                            <span class="categories-badge">{$num.count}</span>
+                            {else /}<span class="categories-badge">0</span>{/if}
+                            {/volist}
+                            
+                        </a>
+                    </li>
+                    {/volist}
+                </ul>
+            </div>
+        
+        {volist name='articleAll' id='articleNow'}
+        <section class="category-slice" post-cate="All">
+        <!--第一篇博客显示-->
+            <article>
+                <header>
+                    <span class="octicon octicon-calendar"></span>&nbsp;<span>{$articleNow.addtime|date="Y-m-d",###}</span>
+                </header>
+                <div class="module" >
+                    <a class="title" href="{:url('index/article/index',['aid'=>$articleNow.aid])}">{$articleNow.title}</a>
+                    <p>可能为空{$articleNow.description}</p>
+                    <a class="readmore" href="">Read More</a>
+                    
+                    <footer>
+                        {volist name='tagAll' id='tagNow'}
+                        {if condition="$tagNow.aid == $articleNow.aid"}
+                        <a class="word-keep" href="{:url('index/tag/eachTag',['tid'=>$tagNow.tid])}">
+                        <span class="octicon octicon-tag"></span>&nbsp;{$tagNow.tname}
+                        </a>
+                        {/if}
+                        {/volist}
+                        &nbsp;&nbsp;&nbsp;
+                        {volist name='categoryAll' id='categoryNow'}
+                        {if condition="$categoryNow.cid == $articleNow.cid"}
+                        <a class="word-keep" href="{:url('index/category/eachCategory',['cid'=>$categoryNow.cid])}">
+                        <span class="octicon octicon-repo"></span>{$categoryNow.cname}
+                        </a>
+                        {/if}
+                        {/volist}
+                        <span class="word-keep pull-right">
+                            <a href=""><span class="octicon octicon-comment"></span>&nbsp;Comment</a>
+                            <a href=""><span class="octicon octicon-file-symlink-file"></span>&nbsp;Share</a>
+                        </span>
+                    </footer>
+                </div>
+            </article>
+        <!--第一篇博客结束位置-->
+        </section>
+        {/volist}
+        
+        <div class="pad-mid"></div>
+
+        <nav class="text-center">
+            <!--预留分页-->
+        </nav>
+         
+        </div>
+    </div>
+</div>
+
+{/block}

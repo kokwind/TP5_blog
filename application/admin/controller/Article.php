@@ -20,7 +20,7 @@ class Article extends Controller
         $this->assign('categoryList',$data['categoryList']);
         $this->assign('tagList',$data['tagList']);
        
-        return $this->fetch();
+        return $this->fetch('Article/index');
     }
 
 
@@ -107,7 +107,7 @@ class Article extends Controller
                 $this->assign('editArticle',$editArticle);
                 $this->assign('tagList',$tagList);
                 $this->assign('categoryList',$categoryList);
-                return $this->fetch();
+                return $this->fetch('Aticle/edit');
 
             }else{
                

@@ -17,7 +17,8 @@
     ],
     "require": {
         "php": ">=5.4.0",
-        "topthink/framework": "^5.0"
+        "topthink/framework": "^5.0",
+        "michelf/php-markdown": "^1.7"
     },
     "extra": {
         "think-path": "thinkphp"

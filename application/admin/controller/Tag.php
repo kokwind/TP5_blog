@@ -14,7 +14,7 @@ class Tag extends Controller
         $tagModel = new AdminTag;
         $data = $tagModel->getAllData();
         $this->assign('tagList',$data);
-        return $this->fetch();
+        return $this->fetch('Tag/index');
     }
 
     //添加标签
@@ -46,7 +46,7 @@ class Tag extends Controller
             }
 
         }else{
-            return $this->fetch();
+            return $this->fetch('Tag/add');
         }
         
     }

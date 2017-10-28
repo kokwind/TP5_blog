@@ -1,0 +1,57 @@
+{extend name="base" /}
+
+{block name="title"}个人博客首页{/block}
+
+{block name="main"}
+
+<div class="main">
+    <div class="container">
+        <div class="row">
+            <div class="content col-lg-9">
+                <div class="sheet post">
+                    <header>
+                    <h2>记一次在spring-mvc中踩坑的经历</h2>
+                    <p class="post-meta">
+                        <span class="octicon octicon-clock"></span> May 27, 2017
+                    </p>
+                    <p class="post-tag">
+                        <span>
+                            <a href="http://blog.rainyalley.com/category/#java">
+                            <span class="octicon octicon-list-unordered"></span>&nbsp;分类
+                            </a>
+                        </span>
+                        <span>
+                            <a class="word-keep" href="http://blog.rainyalley.com/tags/#spring">
+                            <span class="octicon octicon-tag"></span>&nbsp;标签
+                            </a>                 
+                        </span>
+                    </p>
+                    </header>
+            
+                    <hr class="boundary">
+            
+                    <article>
+                        <p>内容主体</p>    
+                    </article>
+            
+                    <hr class="boundary">    
+                </div>
+                <div class="pad-min"></div>
+                <div id="post-comment" class="sheet post" >
+                    <div id="disqus_thread"></div>
+                </div>
+            </div>
+    
+        </div>
+    </div>
+
+    <div class="page-scrollTop" data-toggle="tooltip" data-placement="top" title="Top">
+    <!--返回top-->
+        <a href="javascript:void(0);">
+            <div class="arrow"></div>
+            <div class="stick"></div>
+        </a>
+    </div>
+</div>
+
+{/block}
