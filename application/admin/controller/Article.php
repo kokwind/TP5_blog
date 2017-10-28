@@ -108,7 +108,7 @@ class Article extends Controller
                 $this->assign('editArticle',$editArticle);
                 $this->assign('tagList',$tagList);
                 $this->assign('categoryList',$categoryList);
-                return $this->fetch('Aticle/edit');
+                return $this->fetch('Article/edit');
 
             }else{
                

@@ -166,7 +166,7 @@ class Article extends Model
             //根据aid实现文章修改
               
             //分类不用考虑，修改了cid就行
-
+            
             $tagData = $data['tid'];      //数组
             //先删除原来的标签，再插入新的标签
             $delTag = Db::name('article_tag')->where('aid',$data['aid'])->delete();

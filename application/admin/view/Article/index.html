@@ -33,7 +33,7 @@
         <td>{$article.author}</td>
         <td> 
             {volist name='tagList' id='tag'}
-            {if condition='$article.aid eq $tag.aid'}{$tag.tname}{/if}
+            {if condition='$article.aid eq $tag.aid'} {$tag.tname} &nbsp;{/if}
             {/volist}
         </td>
         <td>{if condition="$article.is_original == 1"}√ {else /}× {/if}</td>

@@ -40,10 +40,10 @@
 
 {block name="main"}
 <div class="container">
-    <form action="edit" method="post">
+    <form action="{:url('admin/article/edit')}" method="post">
         <!--用于判断是否有请求-->
         <input type="hidden" name="request" value="editpost">
-
+        <input type="hidden" name="aid" value="{$editArticle.aid}">
         <div class="row">
             <span>目前的操作是修改文章</span>
         </div>
@@ -54,7 +54,7 @@
                     <span class="input-group-addon" style="width:60px;height:25px;font-size:10px">所属分类</span>
                     <select class="form-control" name="cid" id="category" style="width:100px;height:30px;font-size:10px" onchange="show_warehouse()">
                         {volist name='$categoryList' id='category'}
-                        <option style="width:60px;height:25px;font-size:15px" value="{$category.cid}" {if condition="$category.cid eq $editArticle.cid"}selected='selected'{/if}>{$category.cid}{$category.cname}</option>
+                        <option style="width:60px;height:25px;font-size:15px" value="{$category.cid}" {if condition="$category.cid eq $editArticle.cid"}selected='selected'{/if}>{$category.cname}</option>
                         {/volist}
                     </select>  
                 </div>   
