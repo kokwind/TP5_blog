@@ -1,7 +1,7 @@
 <?php
 namespace app\admin\controller;
 use think\Controller;
-use app\admin\model\Tag as AdminTag;
+use app\common\model\Tag as AdminTag;
 use think\Request;          //获取当前请求信息
 
 class Tag extends Controller

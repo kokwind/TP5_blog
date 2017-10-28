@@ -1,6 +1,6 @@
 <?php
 
-namespace app\admin\model;
+namespace app\common\model;
 use think\Model;
 use think\Db;       //使用数据库
 use think\Paginator;     //使用分页
@@ -72,15 +72,28 @@ class Tag extends Model
         return $data;   
     }
 
-    /**
-     * 获取tname
-     * @param array $tids 文章id
-     * @return array $tnames 标签名
-     */
-    public function getTnames($tids){
- /*       foreach ($tids as $k => $v) {
-            $tnames[]=$this->where(array('tid'=>$v))->getField('tname');
-        }
-        return $tnames; */
-    }   
+    
+    //前台需要的功能
+    
+    public function getAllTag()
+    {
+        //显示Tag的全部内容
+        //需要的信息: tpblog_tag表中   tid,tname
+        //           tpblog_article_tag表中      aid,tid
+        //           tpblog_article表中           aid,title,addtime
+        //获取文章列表
+        $articleList = Db::name('article')->alias('a')->field('a.aid,title,addtime,tid')->
+        join('tpblog_article_tag at','at.aid=a.aid')->where('is_show',1)->where('is_delete',0)->select();
+        
+        //tname,tid,num
+        $tagTotal = Db::name('article_tag')->alias('at')->field('tname,t.tid,count(at.aid) as num')->join('tpblog_tag t','at.tid=t.tid')->join('tpblog_article a','a.aid=at.aid')->where('is_show',1)->where('is_delete',0)->group('tid')->select();
+        
+        //合并数据
+        $data['articleList'] = $articleList;
+        $data['tagTotal'] = $tagTotal;
+        
+        return $data;
+        
+    }
+
 }

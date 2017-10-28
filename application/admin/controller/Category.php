@@ -1,7 +1,7 @@
 <?php
 namespace app\admin\controller;
 use think\Controller;
-use app\admin\model\Category as AdminCategory;
+use app\common\model\Category as AdminCategory;
 use think\Request;          //获取当前请求信息
 
 class Category extends Controller

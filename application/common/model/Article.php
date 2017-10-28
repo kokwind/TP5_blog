@@ -1,11 +1,12 @@
 <?php
 
-namespace app\admin\model;
+namespace app\common\model;
 use think\Model;
 use think\Db;       //使用数据库
 use think\Paginator;     //使用分页
 use think\Validate;     //使用tp5的验证器
 use think\Request;          //获取当前请求信息
+use Michelf\Markdown;
 
 class Article extends Model
 {
@@ -25,21 +26,17 @@ class Article extends Model
             'author' => $data['author'],
             'content' => $data['content']
         ];
-        //返回验证结果
-        //return $validate->check($checkData);
+
+        //返回验证结果  
         if($validate->check($checkData)){
-            return $validate->check($checkData);
-            //dump($validate->check($checkData));     //成功是   bool(true)
+            return $validate->check($checkData);       //成功是   bool(true) 
         }else{
-            return $validate->getError();
-            //echo $validate->getError();         //不成功是提示字符串
+            return $validate->getError();       //不成功是提示字符串         
         }
     
     }
 
-    //设置自动完成的字段，支持键值对数组和索引数组
-    //新增和更新时都会使用
-    // 自动完成
+    //设置自动完成的字段，支持键值对数组和索引数组,新增和更新时都会使用
     protected $auto = [
         'click'=>0,           //新增和修改时，把click字段设置为0
         'is_delete'=>0,       //新增和修改时，把is_delete字段设置为0
@@ -48,7 +45,7 @@ class Article extends Model
         'keywords'
         ];
 
-    // 获得描述；供自动完成调用
+    // 获得描述；供自动完成调用,新增和修改文章时
     protected function setDescriptionAttr(){
         $description = input('post.description');
         if(!empty($description)){
@@ -56,7 +53,9 @@ class Article extends Model
         }else{
             $data = input('post.content');
             $des = htmlspecialchars_decode($data);
+            $des = Markdown::defaultTransform($des);
             $des = mb_substr(strip_tags($des),0,200,'utf-8');
+            
             return $des;
         }
     }
@@ -73,15 +72,7 @@ class Article extends Model
     }
 
 
-    /**
-     * 获得文章分页数据
-     * @param strind $cid 分类id 'all'为全部分类
-     * @param strind $tid 标签id 'all'为全部标签
-     * @param strind $is_show   是否显示 1为显示 0为显示
-     * @param strind $is_delete 状态 1为删除 0为正常
-     * @param strind $limit 分页条数
-     * @return array $data 分页样式 和 分页数据
-     */
+    //获得文章的分页数据
     public function getPageDate()
     {
 
@@ -109,7 +100,7 @@ class Article extends Model
        return $data;
     }
 
-    //显示增加文章界面的可供选择的分类和标签
+    //显示增加文章界面的可供选择的分类和标签,添加文章使用 admin
     public function getAddIndex()
     {
         //分类表：tpblog_category       分类主键id：cid      分类名称：cname
@@ -247,5 +238,30 @@ class Article extends Model
             }
         }
     }
+
+
+    //下面是 index 前台需要的功能
     
+    //得到一篇文章的具体信息
+    public function articleDetail($aid)
+    {
+        //根据文章 aid 查询需要的数据
+        //查询文章表 tpblog_article 以及分类表
+        $article = DB::name('article')->alias('a')->field('aid,title,author,content,a.keywords,click,addtime,a.cid,cname')->
+        join('tpblog_category tc','a.cid=tc.cid')->where('aid',$aid)->find();
+        //需要的标签名称
+        $tags = Db::name('article_tag')->alias('at')->join('tpblog_tag tt','at.tid=tt.tid')->where('aid',$aid)->select();
+        //需要的分类信息   cname,cid
+        $category = Db::name('category')->alias('c')->field('cname,c.cid')->join('tpblog_article a','c.cid=a.cid')->where('aid',$aid)->find();
+        //转义文章内容
+        $article['content'] = Markdown::defaultTransform($article['content']);
+    
+        $data['article'] = $article;
+        $data['tags'] = $tags;
+        $data['category'] = $category;
+       
+        return $data;
+    }
+
+
 }

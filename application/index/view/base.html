@@ -51,19 +51,19 @@
                         </li>
                         
                         <li>
-                            <a href="{:url('index/archive/index')}" class="word-keep">
+                            <a href="{:url('index/index/archive')}" class="word-keep">
                             <span class="octicon octicon-repo"></span>&nbsp;&nbsp;归档
                             </a>
                         </li>                       
                         
                         <li>
-                            <a href="{:url('index/category/index')}" class="word-keep">
+                            <a href="{:url('index/index/category')}" class="word-keep">
                             <span class="octicon octicon-list-unordered"></span>&nbsp;&nbsp;类别
                             </a>
                         </li>
                         
                         <li>
-                            <a href="{:url('index/tag/index')}" class="word-keep">
+                            <a href="{:url('index/index/tag')}" class="word-keep">
                             <span class="octicon octicon-tag"></span>&nbsp;&nbsp;标签
                             </a>
                         </li>      
@@ -103,7 +103,7 @@
                 $data = model('Category')->getAllCategory();
                 $categoryTotal = $data['categoryTotal'];
                 foreach($categoryTotal as $k => $v){
-                    echo "<div class='row'><a href='/index/category/list/cid/".$v['cid']."'><div class='col-md-8' >".$v['cname']."</div></a><div class='col-md-4' >".$v['num']."</div></div>";
+                    echo "<div class='row'><a href='/index/index/categoryList/cid/".$v['cid']."'><div class='col-md-8' >".$v['cname']."</div></a><div class='col-md-4' >".$v['num']."</div></div>";
                 }
                 {/php}
             </div>
@@ -116,7 +116,7 @@
                 $data = model('Archive')->getAllArchive();
                 $archiveTotal = $data['yearNum'];
                 foreach($archiveTotal as $k => $v){
-                    echo "<div class='row'><a href='/index/archive/index.html#".$v['year']."'><div class='col-md-8' >".$v['year']."</div></a><div class='col-md-4' >".$v['num']."</div></div>";
+                    echo "<div class='row'><a href='/index/index/archive.html#".$v['year']."'><div class='col-md-8' >".$v['year']."</div></a><div class='col-md-4' >".$v['num']."</div></div>";
                 }
                 {/php}
             </div>
@@ -130,7 +130,7 @@
                     $data = model('Tag')->getAllTag();
                     $tagTotal = $data['tagTotal'];
                     foreach($tagTotal as $k => $v){
-                        echo "<div class='col-md-6' ><a href='/index/tag/index.html#".$v['tid']."'><span>".$v['tname']."</span>&nbsp;<span>".$v['num']."</span></a></div>";
+                        echo "<div class='col-md-6' ><a href='/index/index/tag.html#".$v['tid']."'><span>".$v['tname']."</span>&nbsp;<span>".$v['num']."</span></a></div>";
                     }
                     {/php}
                 </div>

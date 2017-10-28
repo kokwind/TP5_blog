@@ -16,13 +16,13 @@
                     </p>
                     <p class="post-tag">
                         <span>
-                            <a href="{:url('index/category/list',['cid'=>$category.cid])}">
+                            <a href="{:url('index/index/categoryList',['cid'=>$category.cid])}">
                             <span class="octicon octicon-list-unordered"></span>&nbsp;{$category.cname}
                             </a>
                         </span>
                         <span>
                             {volist name='tags' id='tag'}
-                            <a class="word-keep" href="{:url('index/tag/index',['tid'=>$tag.tid])}">
+                            <a class="word-keep" href="{:url('index/index/tag',['tid'=>$tag.tid])}">
                             <span class="octicon octicon-tag"></span>&nbsp;{$tag.tname}
                             {/volist}
                             </a>                 

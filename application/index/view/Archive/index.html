@@ -53,7 +53,7 @@
                                 {volist name='articleList' id='article'}
                                 {if condition="$article.year == $yearList.year"}
                                 <ul>                   
-                                    <li itemscope><span class="entry-date">{$article.addtime|date="Y-m-d",###}</span> &raquo; <a href="{:url('index/article/index',['aid'=>$article.aid])}">{$article.title}</a></li>
+                                    <li itemscope><span class="entry-date">{$article.addtime|date="Y-m-d",###}</span> &raquo; <a href="{:url('index/index/article',['aid'=>$article.aid])}">{$article.title}</a></li>
                                 </ul>
                                 {/if}
                                 {/volist}

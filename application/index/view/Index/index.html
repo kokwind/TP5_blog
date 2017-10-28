@@ -17,16 +17,16 @@
                     <span class="octicon octicon-calendar"></span>&nbsp;<span>{$articleNow.addtime|date="Y-m-d",###}</span>
                 </header>
                 <div class="module">
-                    <a class="title" href="{:url('index/article/index',['aid'=>$articleNow.aid])}">{$articleNow.title}</a>
+                    <a class="title" href="{:url('index/index/article',['aid'=>$articleNow.aid])}">{$articleNow.title}</a>
                     <p>
                        可能为空{$articleNow.description}
                     </p>
-                    <a class="readmore" href="{:url('index/article/index',['aid'=>$articleNow.aid])}">Read More</a>
+                    <a class="readmore" href="{:url('index/index/article',['aid'=>$articleNow.aid])}">Read More</a>
                     
                     <footer>
                         {volist name='tagAll' id='tagNow'}
                         {if condition="$tagNow.aid == $articleNow.aid"}
-                        <a class="word-keep" href="{:url('index/tag/index',['tid'=>$tagNow.tid])}">
+                        <a class="word-keep" href="{:url('index/index/tag',['tid'=>$tagNow.tid])}">
                         <span class="octicon octicon-tag"></span>&nbsp;{$tagNow.tname}
                         </a>
                         {/if}
@@ -34,13 +34,13 @@
                         &nbsp;&nbsp;&nbsp;
                         {volist name='categoryAll' id='categoryNow'}
                         {if condition="$categoryNow.cid == $articleNow.cid"}
-                        <a class="word-keep" href="{:url('index/category/list',['cid'=>$categoryNow.cid])}">
+                        <a class="word-keep" href="{:url('index/index/categoryList',['cid'=>$categoryNow.cid])}">
                         <span class="octicon octicon-repo"></span>{$categoryNow.cname}
                         </a>
                         {/if}
                         {/volist}
                         <span class="word-keep pull-right">
-                            <a href="{:url('index/article/index',['aid'=>$articleNow.aid])}"><span class="octicon octicon-comment"></span>&nbsp;Comment</a>
+                            <a href="{:url('index/index/article',['aid'=>$articleNow.aid])}"><span class="octicon octicon-comment"></span>&nbsp;Comment</a>
                         </span>
                     </footer>
                 </div>

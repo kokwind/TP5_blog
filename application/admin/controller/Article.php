@@ -1,10 +1,11 @@
 <?php
 namespace app\admin\controller;
 use think\Controller;
-use app\admin\model\Article as AdminArticle;
+//use app\admin\model\Article as AdminArticle;
 use think\Request;          //获取当前请求信息
 //use think\Db;       //使用数据库
 use think\Validate;     //使用tp5的验证器
+use app\common\model\Article as AdminArticle;
 
 class Article extends Controller
 {
