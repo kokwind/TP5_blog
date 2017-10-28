@@ -15,7 +15,7 @@ class Index extends Controller
         $this->assign('articleAll',$data['articleAll']);
         $this->assign('tagAll',$data['tagAll']);
         $this->assign('categoryAll',$data['categoryAll']);
-        return $this->fetch();
+        return $this->fetch('Index/index');
 
     }
 
