@@ -246,6 +246,8 @@ class Article extends Model
     public function articleDetail($aid)
     {
         //根据文章 aid 查询需要的数据
+        //先增加文章的点击数,自增或自减一个字段的值
+        $addClick = $this->where('aid',$aid)->setInc('click');
         //查询文章表 tpblog_article 以及分类表
         $article = DB::name('article')->alias('a')->field('aid,title,author,content,a.keywords,click,addtime,a.cid,cname')->
         join('tpblog_category tc','a.cid=tc.cid')->where('aid',$aid)->find();
@@ -256,9 +258,18 @@ class Article extends Model
         //转义文章内容
         $article['content'] = Markdown::defaultTransform($article['content']);
     
+
+        //处理文章的评论显示
+        $parentComment = Db::name('comment')->where('aid',$aid)->where('pid',0)->where('is_delete',0)->order('date desc')->select();
+        $childComment = Db::name('comment')->where('aid',$aid)->where('pid','>',0)->where('is_delete',0)->order('cmtid')->select();
+        $totalComment = Db::name('comment')->where('aid',$aid)->count();
+        
         $data['article'] = $article;
         $data['tags'] = $tags;
         $data['category'] = $category;
+        $data['parentComment'] = $parentComment;
+        $data['childComment'] = $childComment;
+        $data['totalComment'] = $totalComment;
        
         return $data;
     }

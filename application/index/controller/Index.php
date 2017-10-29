@@ -7,6 +7,7 @@ use app\common\model\Article as IndexArticle;
 use app\index\model\Archive as IndexArchive;
 use app\common\model\Category as IndexCategory;
 use app\common\model\Tag as IndexTag;
+use app\common\model\Comment as IndexComment;
 
 
 class Index extends Controller
@@ -39,6 +40,9 @@ class Index extends Controller
                 $this->assign('article',$data['article']);
                 $this->assign('tags',$data['tags']);
                 $this->assign('category',$data['category']);
+                $this->assign('parentComment',$data['parentComment']);
+                $this->assign('childComment',$data['childComment']);
+                $this->assign('totalComment',$data['totalComment']);
                 
                 return $this->fetch('Article/index');
             }
@@ -117,6 +121,40 @@ class Index extends Controller
         }else{
             return $this->error('还没有标签');
         }      
+    }
+
+
+    //评论操作
+    public function comment()
+    {
+        $data = json_encode(['success'=>1,'ecp'=>'ok']);
+        
+        $request = Request::instance();
+        
+        $ouip = $request->ip();         //评论用户ip
+        $contentAid = $request->param();       //aid,pid,content
+       
+        if($contentAid['content'] != ""){
+
+            $commentModel = new IndexComment;
+            $responseList = $commentModel->replyComment($contentAid,$ouip);
+           
+            if($responseList){
+                $responseList = json_encode($responseList);
+                return json($responseList);
+            }else{
+                $err = ['cmtid'=>0];
+                $err = json_encode($err);
+                return json($err);
+            }   
+
+        }else{
+            $err = ['cmtid'=>0];
+            $err = json_encode($err);
+            return json($err);
+        }
+        
+        
     }
 
 }

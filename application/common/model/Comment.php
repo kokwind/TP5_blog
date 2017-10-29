@@ -1,6 +1,6 @@
 <?php
 
-namespace app\admin\model;
+namespace app\common\model;
 use think\Model;
 use think\Request;          //获取当前请求信息
 use think\Db;       //使用数据库
@@ -69,6 +69,59 @@ class Comment extends Model
                 }
                 
             }
+        }
+    }
+
+
+    //前台操作需要的方法
+    
+    //显示评论
+    public function displayComment($aid)
+    {
+        //根据 aid 显示评论
+    }
+
+
+    //回复评论
+    public function replyComment($contentAid,$ouip)
+    {
+        //得到评论的 aid,pid,content     以及 用户ip
+        //存入数据库
+        // cmtid 自增  ouid
+        if($contentAid['pid'] == 0){
+            //评论的是文章，需要作者审核,pid默认为0
+            $data['status'] = 0;
+            $data['ouip'] = $ouip;
+            $data['aid'] = $contentAid['aid'];
+            $data['content'] = $contentAid['content'];
+            $data['date'] = time();
+            //存入数据
+            $resADD = Db::name('comment')->insert($data);
+            //得到自增主键id 
+            $cmtid = DB::name('comment')->getLastInsID();
+            
+            //得到返回数据
+            $returnData = DB::name('comment')->where('cmtid',$cmtid)->find();
+            $returnData['date'] = date('Y-m-d H:i:s',$returnData['date']);
+            return $returnData;
+        }else{
+            //评论的是用户，不需要作者审核,pid为传过来的pid
+            
+            $data['ouip'] = $ouip;
+            $data['pid'] = $contentAid['pid'];
+            $data['aid'] = $contentAid['aid'];
+            $data['content'] = $contentAid['content'];
+            $data['date'] = time();
+            $data['status'] = 1;
+            //存入数据
+            $resADD = Db::name('comment')->insert($data);
+            //得到自增主键id 
+            $cmtid = DB::name('comment')->getLastInsID();
+            
+            //得到返回数据
+            $returnData = DB::name('comment')->where('cmtid',$cmtid)->find();
+            $returnData['date'] = date('Y-m-d H:i:s',$returnData['date']);
+            return $returnData;
         }
     }
 

@@ -1,7 +1,7 @@
 <?php
 namespace app\admin\controller;
 use think\Controller;
-use app\admin\model\Comment as AdminComment;
+use app\common\model\Comment as AdminComment;
 use think\Request;          //获取当前请求信息
 
 class Comment extends Controller
