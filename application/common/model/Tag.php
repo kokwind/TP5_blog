@@ -47,27 +47,24 @@ class Tag extends Model
     }
 
     // 修改数据
-    public function editData(){
-        $tid = input('post.tid');
-        $tname = input('post.tname');
-        $res = $this->where('tid',$tid)->update(['tname'=>$tname]);
+    public function editData($data)
+    {
+        $res = $this->where('tid',$data['tid'])
+                    ->update(['tname'=>$data['tname']]);
         return $res;
     }
 
     // 删除数据
-    public function deleteData(){
-        
-        $tid = input('tid');        //input('get.id')获取值有限制
-        if(!empty($tid)){
-            $res = $this->where('tid',$tid)->delete();
-            return $res;
-        }
-        
+    public function deleteData($tid)
+    {
+        $res = $this->where('tid',$tid)
+                    ->delete();
+        return $res; 
     }
 
     //获得全部数据
-    public function getAllData(){
-
+    public function getAllData()
+    {
         $data = $this->select();
         return $data;   
     }
@@ -76,7 +73,7 @@ class Tag extends Model
     //前台需要的功能
     
     /**
-     * 获得全部的标签数据
+     * 获得全部的标签数据,统计各个标签的总数
      * @return array $tagTotal 全部的标签，包含 tname,tid,couunt
      */
     public function getAllTag()
@@ -97,7 +94,7 @@ class Tag extends Model
     }
 
     /**
-     * 获得与文章关联的标签数据
+     * 获得与文章关联的标签数据,根据参数得到 aid,tid,tname
      * @param strind $aid 文章id 'all'为显示全部的的关联数据
      * @return array $tags 一篇文章的多个标签
      */

@@ -12,45 +12,46 @@ class Comment extends Model
     public function getPageDate()
     {
         //分页查询,查询出未删除的评论
-        $commentList = $this->alias('c')->field('cmtid,ouid,date,c.content,status,title')->where('c.is_delete',0)->join('tpblog_article ta','c.aid=ta.aid')->paginate(10,false,[
-            'type'     => 'Bootstrap',
-            'var_page' => 'page',
-            //'path'=>'javascript:AjaxPage([PAGE]);',
-            'query' => request()->param()
-           ]);
+        $commentList = $this->alias('c')
+                            ->field('cmtid,ouid,date,c.content,status,title,c.aid')
+                            ->where('c.is_delete',0)
+                            ->where('ta.is_delete',0)
+                            ->join('tpblog_article ta','c.aid=ta.aid')
+                            ->paginate(10,false,[
+                                'type'     => 'Bootstrap',
+                                'var_page' => 'page',
+                                //'path'=>'javascript:AjaxPage([PAGE]);',
+                                'query' => request()->param()
+                            ]);
 
         return $commentList;
     }
 
-    public function changeCommentStatus()
+    /**
+     * @param strind $data 需要审核的评论cmtid和根据status判断通过还是不通过审核
+     * @return array $resChange 审核结果
+     */
+    public function changeCommentStatus($data)
     {
         //接收修改的 cmtid 和状态 status
-        // 获取当前请求的所有变量（经过过滤）
-        $data = Request::instance()->param();
-        if(!empty($data['cmtid'])){
-            //评论id不为空
-            $resChange = $this->where('cmtid',$data['cmtid'])->update(['status'=>$data['status']]);
-            return $resChange;
-        }else{
-            return false;
-        }
+        //评论id不为空
+        $resChange = $this->where('cmtid',$data['cmtid'])
+                        ->update(['status'=>$data['status']]);
+        return $resChange;
+        
     }
 
-    public function deleteComment()
+    public function deleteComment($cmtid)
     {
-        $cmtid = input('cmtid');
-        if(!empty($cmtid)){
-            //评论id不为空
-            $delChange = $this->where('cmtid',$cmtid)->update(['is_delete'=>1]);
-            return $delChange;
-        }else{
-            return false;
-        }
+        //评论id不为空
+        $delChange = $this->where('cmtid',$cmtid)
+                        ->update(['is_delete'=>1]);
+        return $delChange;
+        
     }
 
     public function recycleComment($data)
     {
-        if(array_key_exists('cmtid',$data)){
             //评论 cmtid存在
             if($data['status'] == 0){
                 //恢复评论，is_delete 设为 0
@@ -61,15 +62,22 @@ class Comment extends Model
                 //彻底删除评论
                 //删除文章表信息
                 $res = $this->where('cmtid',$data['cmtid'])->delete();
-
-                if($res){
-                    return true;
-                }else{
-                    return false;
-                }
-                
+                return $res;
             }
-        }
+
+    }
+
+    public function showRecycleComment()
+    {
+        $commentList = $this->where('is_delete',1)
+                            ->paginate(10,false,[
+                                'type'     => 'Bootstrap',
+                                'var_page' => 'page',
+                                //'path'=>'javascript:AjaxPage([PAGE]);',
+                                'query' => request()->param()
+                            ]);
+
+        return $commentList;
     }
 
 

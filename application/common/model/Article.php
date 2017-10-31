@@ -72,58 +72,29 @@ class Article extends Model
     }
 
 
-    //获得文章的分页数据
+    /**
+     * 获得后台文章全部，带有分页信息
+     * @return array $articleList 带有分页信息的全部文章
+     */
     public function getPageDate()
     {
-
         //查询文章的相关信息
         //需要显示的字段，在文章表(tpblog_article)中：  aid,title,author,is_original,is_show,is_top,click,addtime
-        //分类：cid        在分类表(tpblog_category)中找     cname
-        //标签:tid        在标签表(tpblog_article_tag)中找      tname
-
        $articleList = $this->where('is_show',1)
-                        ->where('is_delete',0)
-                        ->paginate(10,false,[
-                            'type'     => 'Bootstrap',
-                            'var_page' => 'page',
-                            //'path'=>'javascript:AjaxPage([PAGE]);',
-                            'query' => request()->param()
-                        ]);
+                            ->where('is_delete',0)
+                            ->paginate(10,false,[
+                                'type'     => 'Bootstrap',
+                                'var_page' => 'page',
+                                //'path'=>'javascript:AjaxPage([PAGE]);',
+                                'query' => request()->param()
+                            ]);
 
-       //得到 cid,cname
-    //    $categoryList = model('Category')->all();
-       //得到 aid,tid，tname
-       $tagList = Db::name('article_tag')
-                    ->alias('at')
-                    ->field('aid,at.tid,tname')
-                    ->join('tpblog_tag tt','at.tid=tt.tid')
-                    ->select();
-       
-       //组合数据
-       $data['articleList'] = $articleList;
-    //    $data['categoryList'] = $categoryList;
-       $data['tagList'] =$tagList;
-       return $data;
+       return $articleList;
     }
 
-    //显示增加文章界面的可供选择的分类和标签,添加文章使用 admin
-    public function getAddIndex()
-    {
-        //分类表：tpblog_category       分类主键id：cid      分类名称：cname
-        $allCategory = Db::name('category')->field('cid,cname')->select();
-
-        //标签表：tpblog_tag        标签主键：tid        标签名：tname
-        $allTag = Db::name('tag')->field('tid,tname')->select();
-
-        $data = [
-            'allCategory' => $allCategory,
-            'allTag' => $allTag
-        ];
-
-        return $data;
-    }
-
-    //增加文章功能实现
+    /**
+     * 实现添加文章的功能，同时要处理一个中间关联表 tpblog_article_tag
+     */
     public function addArticle()
     {
         
@@ -150,44 +121,39 @@ class Article extends Model
     }
 
     //修改文章功能实现
+    /**
+     * 实现文章的修改功能
+     */
     public function updateArticle($method,$data)
     {
         
         if($method == 'GET'){
             //根据aid查找修改文章,给模板显示
-            //dump($data);
-            //exit;
-            $article = Db::name('article')->where('aid',$data['aid'])->find();
-            //测试找其他表
-            $tnames = Db::name('article_tag')->alias('a')->field('a.tid,tname')->join('tpblog_tag t','a.tid=t.tid')->where('aid',$data['aid'])->select();
-            //cid文章表中有
-            //$article['cname'] = $data['cname'];
-            
-            $article['tnames'] = $tnames;
-          // dump($article);
-           //exit;
+            $article = $this->where('aid',$data['aid'])
+                            ->find();
+
             return $article;
         }
         else if($method == 'POST'){
-            //根据aid实现文章修改
-              
-            //分类不用考虑，修改了cid就行
-            
+            //根据aid实现文章修改   
+            //分类不用考虑，修改了cid就行   
             $tagData = $data['tid'];      //数组
             //先删除原来的标签，再插入新的标签
-            $delTag = Db::name('article_tag')->where('aid',$data['aid'])->delete();
+            $delTag = Db::name('article_tag')
+                        ->where('aid',$data['aid'])
+                        ->delete();
             for($i=0;$i<count($tagData);$i++){
-                $resTag[] = Db::name('article_tag')->insert([ 'aid'=>$data['aid'],'tid'=>$tagData[$i] ]);
+                $resTag[] = Db::name('article_tag')
+                            ->insert([ 'aid'=>$data['aid'],'tid'=>$tagData[$i] ]);
             }
             
             //剩下的数据是文章表的 $data
             unset($data['tid']);        
             //修改文章表
-            $resArticle = Db::name('article')->where('aid',$data['aid'])->update($data);
-            //修改分类表
-            $resCategory = Db::name('category')->where('cid',$data['cid']);
-
-            if($resTag && $resArticle && $resCategory){
+            $resArticle = $this->where('aid',$data['aid'])
+                            ->update($data);
+            
+            if($resTag && $resArticle){
                 //修改成功
                 return true;
             }else{
@@ -199,52 +165,56 @@ class Article extends Model
     //删除文章
     public function deleteArticle($data)
     {
-        if(array_key_exists('aid',$data)){
-            //aid字段存在
-            //执行删除
-            //删除文章表中的文章,设置 is_show=0,is_delete=1
-            $resDelArticle = Article::where('aid',$data['aid'])->update(['is_show'=>0,'is_delete'=>1]);
-            //删除标签表中 aid 的信息
-            //$resDelTags = Db::name('article_tag')->where('aid',$data['aid'])->delete();
-            if($resDelArticle){
-                //删除成功
-                return true;
-            }else{
-                return false;
-            }
-        }else{
-            //文章 aid 不存在
-            return false;
-        }
+        //删除文章表中的文章,设置 is_show=0,is_delete=1
+        $resDelArticle = $this->where('aid',$data['aid'])
+                            ->update(['is_show'=>0,'is_delete'=>1]);
+
+        return $resDelArticle;
     }
 
     public function recycleArticle($data)
     {
-        if(array_key_exists('aid',$data)){
-            //文章 aid存在
-            if($data['status'] == 0){
-                //恢复文章，is_delete 设为 0
-                $res = $this->where('aid',$data['aid'])->update(['is_delete'=>0,'is_show'=>1]);
-                return $res;
-            }
-            else if($data['status'] == 1){
-                //彻底删除文章
-                //删除文章表信息
-                $resArticle = $this->where('aid',$data['aid'])->delete();
+        //判断是回复文章还是彻底删除
+        if($data['status'] == 0){
+            //恢复文章，is_delete 设为 0
+            $res = $this->where('aid',$data['aid'])->update(['is_delete'=>0,'is_show'=>1]);
+            return $res;
+        }
+        else if($data['status'] == 1){
+            //彻底删除文章
+            //删除文章表信息
+            $resArticle = $this->where('aid',$data['aid'])->delete();
+            //删除 tpblog_article_tag 中的 tid 标签信息
+            $resTag = Db::name('article_tag')->where('aid',$data['aid'])->delete();
 
-                //删除 tpblog_article_tag 中的 tid 标签信息
-                $resTag = Db::name('article_tag')->where('aid',$data['aid'])->delete();
-
-                if($resArticle && $resTag){
-                    return true;
-                }else{
-                    return false;
-                }
-                
+            if($resArticle && $resTag){
+                return true;
+            }else{
+                return false;
             }
+            
         }
     }
 
+    /**
+     * 显示已标记的删除文章，包含分页信息
+     * @return array $recycleList 全部删除的文章信息
+     */
+    public function showRecycleArticle()
+    {
+        $recycleList = $this->alias('a')
+                            ->field('aid,cname,author,title')
+                            ->join('tpblog_category c','a.cid=c.cid')
+                            ->where('a.is_delete',1)
+                            ->paginate(10,false,[
+                                'type'     => 'Bootstrap',
+                                'var_page' => 'page',
+                                //'path'=>'javascript:AjaxPage([PAGE]);',
+                                'query' => request()->param()
+                            ]);
+
+        return $recycleList;
+    }
 
     //下面是 index 前台需要的功能
     
@@ -295,7 +265,6 @@ class Article extends Model
     {
         $articleCategory = $this->where('cid',$cid)
                                 ->where('is_show',1)
-                                ->where('is_delete',0)
                                 ->select();
             
         return $articleCategory;

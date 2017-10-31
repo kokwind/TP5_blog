@@ -19,7 +19,7 @@
         {volist name='commentList' id='comment'}
         <tr>
         <td>{$comment.cmtid}</td>
-        <td> <a href="" target="_blank">{$comment.title}</a></td>
+        <td> <a href="{:url('index/Index/article',['aid'=>$comment.aid])}" target="_blank">{$comment.title}</a></td>
         <td>{$comment.ouid}</td>
         <td>{$comment.date|date="Y-m-d H:i:s",###}</td>
         <td>{$comment.content}</td>

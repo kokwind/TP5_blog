@@ -1,10 +1,11 @@
 <?php
 namespace app\admin\controller;
 use think\Controller;
-use app\admin\model\Recycle as AdminRecycle;
 use think\Request;          //获取当前请求信息
-//use think\Db;       //使用数据库
 use think\Validate;     //使用tp5的验证器
+use app\common\model\Article as AdminArticle;
+use app\common\model\Comment as AdminComment;
+use app\admin\model\Link as AdminLink;
 
 class Recycle extends Controller
 {
@@ -18,8 +19,9 @@ class Recycle extends Controller
 
     public function article()
     {
-        $recycleModel = new AdminRecycle;
-        $recycleArticle = $recycleModel->articleRecycle();
+        //显示已标记删除的文章
+        $articleModel = new AdminArticle;
+        $recycleArticle = $articleModel->showRecycleArticle();
         $this->assign('recycleArticle',$recycleArticle);
         
         return $this->fetch('Recycle/article');
@@ -27,8 +29,9 @@ class Recycle extends Controller
 
     public function comment()
     {
-        $recycleModel = new AdminRecycle;
-        $recycleComment = $recycleModel->commentRecycle();
+        // $recycleModel = new AdminRecycle;
+        $commentModel = new AdminComment;
+        $recycleComment = $commentModel->showRecycleComment();
         $this->assign('recycleComment',$recycleComment);
         
         return $this->fetch('Recycle/comment');
@@ -36,8 +39,9 @@ class Recycle extends Controller
 
     public function link()
     {
-        $recycleModel = new AdminRecycle;
-        $recycleLink = $recycleModel->linkRecycle();
+        // $recycleModel = new AdminRecycle;
+        $linkModel = new AdminLink;
+        $recycleLink = $linkModel->showRecycleLink();
         $this->assign('recycleLink',$recycleLink);
 
         return $this->fetch('Recycle/link');

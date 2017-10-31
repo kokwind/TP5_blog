@@ -3,6 +3,7 @@ namespace app\admin\controller;
 use think\Controller;
 use app\common\model\Category as AdminCategory;
 use think\Request;          //获取当前请求信息
+use app\common\model\Article as AdminArticle;
 
 class Category extends Controller
 {
@@ -90,16 +91,25 @@ class Category extends Controller
 
     public function delete(){
         //删除分类
-        $categoryModel = new AdminCategory;
         $cid = input('cid');
         if(!empty($cid)){
             //cid 不为空，删除分类
-            $resDelete = $categoryModel->deleteData();
-            if($resDelete){
-                return $this->success('分类删除成功','Category/index');
-            }else{
+            //先判断是否有此分类的文章，有提示先彻底删除此分类文章
+            $articleModel = new AdminArticle;
+            $existArticle = $articleModel->articleCategory($cid);       //cid下的文章列表
+            if($existArticle){
+                //此分类有文章
                 return $this->error('分类删除失败,请先删除此分类下的文章');
-            }
+            }else{
+                //可以删除分类
+                $categoryModel = new AdminCategory;
+                $resDelete = $categoryModel->deleteData();
+                if($resDelete){
+                    return $this->success('分类删除成功','Category/index');
+                }else{
+                    return $this->error('分类删除失败,请先删除此分类下的文章');
+                }
+            }  
         }else{
             return $this->error('cid不存在，分类删除失败');
         }

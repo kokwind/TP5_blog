@@ -1,11 +1,11 @@
 <?php
 namespace app\admin\controller;
 use think\Controller;
-//use app\admin\model\Article as AdminArticle;
 use think\Request;          //获取当前请求信息
-//use think\Db;       //使用数据库
 use think\Validate;     //使用tp5的验证器
 use app\common\model\Article as AdminArticle;
+use app\common\model\Category as AdminCategory;
+use app\common\model\Tag as AdminTag;
 
 class Article extends Controller
 {
@@ -14,12 +14,19 @@ class Article extends Controller
     //显示文章列表
     public function index(){
         
+        //获取分页的文章信息
         $articleModel = new AdminArticle;
-        $data = $articleModel->getPageDate();
+        $articleList = $articleModel->getPageDate();
+        //获取文章的分类信息
+        $categoryModel = new AdminCategory;
+        $categoryList = $categoryModel->getAllData();
+        //获取文章的标签信息
+        $tagModel = new AdminTag;
+        $tagList = $tagModel->getArticleTag();
         
-        $this->assign('articleList',$data['articleList']);
-        $this->assign('categoryList',$data['categoryList']);
-        $this->assign('tagList',$data['tagList']);
+        $this->assign('articleList',$articleList);
+        $this->assign('categoryList',$categoryList);
+        $this->assign('tagList',$tagList);
        
         return $this->fetch('Article/index');
     }
@@ -67,12 +74,17 @@ class Article extends Controller
             }
         }else{
             //增加文章界面需要显示的信息
-            //可供选择的分类和标签
-            $articleModel = new AdminArticle;
-            $data = $articleModel->getAddIndex();
+            //可供选择的分类信息
+            $categoryModel = new AdminCategory;
+            $allCategory = $categoryModel->getAllData();
+            //可供选择的标签信息
+            $tagModel = new AdminTag;
+            $allTag = $tagModel->getAllTag();
+            // $articleModel = new AdminArticle;
+            // $data = $articleModel->getAddIndex();
             //赋值
-            $this->assign('allCategory',$data['allCategory']);
-            $this->assign('allTag',$data['allTag']);
+            $this->assign('allCategory',$allCategory);
+            $this->assign('allTag',$allTag);
             //渲染模板
             return $this->fetch();
         }
@@ -97,17 +109,18 @@ class Article extends Controller
             if(array_key_exists('aid',$requestArr) && $requestArr['aid'] != ''){
                 //数组中有文章id
 
-                //在article 模型内查找文章相关信息
+                //在article 模型内查找单篇文章相关信息
                 $editArticle = $articleModel->updateArticle($method,$requestArr);
-                // dump($editArticle);
-                //在tag 模型内查找需要的tag信息,要显示全部标签
-                $tagList = model('tag')->getAllData();
-                //在category 模型内查找category相关信息，要显示全部分类
-                $categoryList = model('category')->getAllData();
+                //查找全部的tag信息，包含了aid，  aid,tid,tname
+                $tagModel = new AdminTag;
+                $tagList = $tagModel->getArticleTag();
+                //可供选择的分类信息
+                $categoryModel = new AdminCategory;
+                $allCategory = $categoryModel->getAllData();
                 
                 $this->assign('editArticle',$editArticle);
                 $this->assign('tagList',$tagList);
-                $this->assign('categoryList',$categoryList);
+                $this->assign('categoryList',$allCategory);
                 return $this->fetch('Article/edit');
 
             }else{
@@ -134,23 +147,19 @@ class Article extends Controller
                 //证明必填内容都填了
                 //恢复标签
                 $data['tid'] = explode(' ',$data['tid']);
-
+                //修改文章分2部分，一部分修改文章表内容，一部分修改标签文章表内容，标签文章表是中间关联表
                 //准备修改文章
                 $resUpdateArticle = $articleModel->updateArticle($method,$data);
                 if($resUpdateArticle){
-                    //修改成功
-                    //return $this->fetch('admin@index/desk');
+                    
                     return $this->success('文章修改成功','Article/index');
                 }else{
                     //必填内容需要补全,输出错误提示
-                    //加载error
                     return $this->error("修改失败");
                 }
 
             }else if(is_string($resCheck)){     //不成功返回 提示字符串
-                
                 //必填内容需要补全,输出错误提示
-                //加载error
                 return $this->error($resCheck);
             }
         }else{
@@ -165,13 +174,19 @@ class Article extends Controller
 
         $request = Request::instance();
         $requestArr = $request->param();    //只有一个文章aid 的数组
-        $articleModel = new AdminArticle;
-        $resDelArticle = $articleModel->deleteArticle($requestArr);
-        if($resDelArticle){
-            return $this->success('文章删除成功','Article/index');
+        if(array_key_exists('aid',$requestArr)){
+            $articleModel = new AdminArticle;
+            $resDelArticle = $articleModel->deleteArticle($requestArr);
+            if($resDelArticle){
+                return $this->success('文章删除成功','Article/index');
+            }else{
+                return $this->error('文章删除失败','Article/index');
+            }
         }else{
-            return $this->error('文章删除失败','Article/index');
+            //文章 aid 不存在
+            return $this->error('文章aid不存在','Article/index');
         }
+        
     }
     
     public function recycle()
@@ -179,13 +194,19 @@ class Article extends Controller
         //根据recycle传的状态判断： 0 恢复文章； 1 彻底删除文章
         $request = Request::instance();
         $requestArr = $request->param();    //只有一个文章aid 的数组
-        $articleModel = new AdminArticle;
-        $resRecycle = $articleModel->recycleArticle($requestArr);
-        if($resRecycle){
-            return $this->success('回收站操作成功','Recycle/article');
+        if(array_key_exists('aid',$requestArr)){
+            $articleModel = new AdminArticle;
+            $resRecycle = $articleModel->recycleArticle($requestArr);
+            if($resRecycle){
+                return $this->success('回收站操作成功','Recycle/article');
+            }else{
+                return $this->error('回收站操作失败','Recycle/article');
+            }
         }else{
-            return $this->error('回收站操作失败','Recycle/article');
+            //文章 aid 不存在
+            return $this->error('文章aid不存在','Recycle/article');
         }
+        
     }
     
 }

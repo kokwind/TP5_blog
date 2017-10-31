@@ -84,7 +84,7 @@
             <div class="col-md-4">
                 <div class="form-group">
                     {volist name='tagList' id='tag'}
-                    <label class="checkbox-inline"><input type="checkbox" name="tid[]" value="{$tag.tid}" {if condition="in_array($tag.tid,$editArticle.tnames)"}checked='checked'{/if} >{$tag.tname}</label>
+                    <label class="checkbox-inline"><input type="checkbox" name="tid[]" value="{$tag.tid}" {if condition="$tag.aid == $editArticle.aid"}checked='checked'{/if} >{$tag.tname}</label>
                     {/volist}
                 </div>
             </div>

@@ -16,19 +16,22 @@ class Link extends Model
 
     public function getAllData()
     {
-        $linkList = $this->where('is_show',1)->where('is_delete',0)->paginate(10,false,[
-            'type'     => 'Bootstrap',
-            'var_page' => 'page',
-            //'path'=>'javascript:AjaxPage([PAGE]);',
-            'query' => request()->param()
-           ]);
+        $linkList = $this->where('is_show',1)
+                        ->where('is_delete',0)
+                        ->paginate(10,false,[
+                            'type'     => 'Bootstrap',
+                            'var_page' => 'page',
+                            //'path'=>'javascript:AjaxPage([PAGE]);',
+                            'query' => request()->param()
+                        ]);
 
         return $linkList;
     }
 
     public function getOneData($lid)
     {
-        $link = $this->where('lid',$lid)->find();
+        $link = $this->where('lid',$lid)
+                    ->find();
         return $link;
     }
 
@@ -38,35 +41,27 @@ class Link extends Model
         //使用模型的data方法批量赋值
         $this->data($_POST);
         //过滤post数组中的非数据表字段数据，增加数据，save方法会出发自动完成数据，实现
-        $resAdd = $this->allowField(true)->save();
+        $resAdd = $this->allowField(true)
+                    ->save();
 
         return $resAdd;
     }
 
-    public function editData()
+    public function editData($lid)
     {
         //执行修改数据
         //根据主键 lid 实现修改
-        $lid = input('post.lid');
-        if(!empty($lid)){
-            $resEdit = $this->allowField(['lname','url','is_show'])->save($_POST, ['lid' => $lid]);
-            return $resEdit;
-        }else{
-            return false;
-        }
+        $resEdit = $this->allowField(['lname','url','is_show'])
+                        ->save($_POST, ['lid' => $lid]);
+        return $resEdit;
     }
 
-    public function deleteData()
+    public function deleteData($lid)
     {
         //执行删除数据
-        $lid = input('lid');
-        //可以删除,模型删除
-        $resDelete = $this->where('lid',$lid)->update(['is_delete'=>1,'is_show'=>0]);
-        if($resDelete){
-            return true;
-        }else{
-            return false;
-        }
+        $resDelete = $this->where('lid',$lid)
+                        ->update(['is_delete'=>1,'is_show'=>0]);
+        return $resDelete;
 
     }
 
@@ -76,21 +71,30 @@ class Link extends Model
             //评论 cmtid存在
             if($data['status'] == 0){
                 //恢复友联，is_delete 设为 0
-                $res = $this->where('lid',$data['lid'])->update(['is_delete'=>0,'is_show'=>1]);
+                $res = $this->where('lid',$data['lid'])
+                            ->update(['is_delete'=>0,'is_show'=>1]);
                 return $res;
             }
             else if($data['status'] == 1){
                 //彻底删除友链
-                $res = $this->where('lid',$data['lid'])->delete();
-
-                if($res){
-                    return true;
-                }else{
-                    return false;
-                }
-                
+                $res = $this->where('lid',$data['lid'])
+                            ->delete();
+                return $res;
             }
         }
+    }
+
+    public function showRecycleLink()
+    {
+        $linkList = $this->where('is_delete',1)
+                        ->paginate(10,false,[
+                            'type'     => 'Bootstrap',
+                            'var_page' => 'page',
+                            //'path'=>'javascript:AjaxPage([PAGE]);',
+                            'query' => request()->param()
+                        ]);
+
+        return $linkList;
     }
 
 }

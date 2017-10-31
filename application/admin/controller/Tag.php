@@ -77,7 +77,9 @@ class Tag extends Controller
         }
         else if($method == 'POST'){
             //提交修改结果
-            $resEdit = $tagModel->editData();
+            $data['tid'] = input('post.tid');
+            $data['tname'] = input('post.tname');
+            $resEdit = $tagModel->editData($data);
             if($resEdit){
                 return $this->success('标签修改成功','Tag/index');
             }else{
@@ -89,19 +91,18 @@ class Tag extends Controller
 
     //删除标签
     public function delete(){
-        // $request = Request::instance();
-        // $requestArr = $request->param();        //数组
-        // dump($requestArr);
-        // exit;
-
-        $tagModel = new AdminTag;
-        $resDel = $tagModel->deleteData();
-        if($resDel){
-            return $this->success('标签删除成功','Tag/index');
+        $tid = input('tid');        //input('get.id')获取值有限制
+        if(!empty($tid)){
+            $tagModel = new AdminTag;
+            $resDel = $tagModel->deleteData($tid);
+            if($resDel){
+                return $this->success('标签删除成功','Tag/index');
+            }else{
+                return $this->error('标签删除失败');
+            }
         }else{
             return $this->error('标签删除失败');
         }
-        
     }
 
 

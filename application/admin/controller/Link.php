@@ -98,9 +98,14 @@ class Link extends Controller
                 //验证失败，输出错误信息
                 return $this->error($result);
             }else{
-                $resEdit = $linkModel->editData();
-                if($resEdit){
-                    return $this->success('友链修改成功','Link/index');
+                $lid = input('post.lid');
+                if(!empty($lid)){
+                    $resEdit = $linkModel->editData($lid);
+                    if($resEdit){
+                        return $this->success('友链修改成功','Link/index');
+                    }else{
+                        return $this->error('友链修改失败');
+                    }
                 }else{
                     return $this->error('友链修改失败');
                 }
@@ -115,7 +120,7 @@ class Link extends Controller
         $lid = input('lid');
         if(!empty($lid)){
             //lid 不为空，删除友链
-            $resDelete = $linkModel->deleteData();
+            $resDelete = $linkModel->deleteData($lid);
             if($resDelete){
                 return $this->success('友链删除成功','Link/index');
             }else{
@@ -133,13 +138,17 @@ class Link extends Controller
         //根据recycle传的状态判断： 0 恢复文章； 1 彻底删除文章
         $request = Request::instance();
         $requestArr = $request->param();    //只有一个文章aid 的数组
-        $linkModel = new AdminLink;
-        $resRecycle = $linkModel->recycleLink($requestArr);
-        if($resRecycle){
-            return $this->success('回收站操作成功','Recycle/link');
+        if(array_key_exists('lid',$requestArr)){
+            $linkModel = new AdminLink;
+            $resRecycle = $linkModel->recycleLink($requestArr);
+            if($resRecycle){
+                return $this->success('回收站操作成功','Recycle/link');
+            }else{
+                return $this->error('回收站操作失败','Recycle/link');
+            }
         }else{
             return $this->error('回收站操作失败','Recycle/link');
-        }
+        }  
     }
 
 }
