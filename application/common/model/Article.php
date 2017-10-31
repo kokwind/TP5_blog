@@ -81,21 +81,27 @@ class Article extends Model
         //分类：cid        在分类表(tpblog_category)中找     cname
         //标签:tid        在标签表(tpblog_article_tag)中找      tname
 
-       $articleList = Article::where('is_show',1)->where('is_delete',0)->paginate(10,false,[
-        'type'     => 'Bootstrap',
-        'var_page' => 'page',
-        //'path'=>'javascript:AjaxPage([PAGE]);',
-        'query' => request()->param()
-       ]);
+       $articleList = $this->where('is_show',1)
+                        ->where('is_delete',0)
+                        ->paginate(10,false,[
+                            'type'     => 'Bootstrap',
+                            'var_page' => 'page',
+                            //'path'=>'javascript:AjaxPage([PAGE]);',
+                            'query' => request()->param()
+                        ]);
 
        //得到 cid,cname
-       $categoryList = model('Category')->all();
+    //    $categoryList = model('Category')->all();
        //得到 aid,tid，tname
-       $tagList = Db::name('article_tag')->alias('at')->field('aid,at.tid,tname')->join('tpblog_tag tt','at.tid=tt.tid')->select();
+       $tagList = Db::name('article_tag')
+                    ->alias('at')
+                    ->field('aid,at.tid,tname')
+                    ->join('tpblog_tag tt','at.tid=tt.tid')
+                    ->select();
        
        //组合数据
        $data['articleList'] = $articleList;
-       $data['categoryList'] = $categoryList;
+    //    $data['categoryList'] = $categoryList;
        $data['tagList'] =$tagList;
        return $data;
     }
@@ -242,37 +248,56 @@ class Article extends Model
 
     //下面是 index 前台需要的功能
     
-    //得到一篇文章的具体信息
+    /**
+     * 获得单篇文章详细内容
+     * @param strind $aid 文章id 单篇文章
+     * @return array $article 一篇文章的全部信息
+     */
     public function articleDetail($aid)
     {
         //根据文章 aid 查询需要的数据
         //先增加文章的点击数,自增或自减一个字段的值
         $addClick = $this->where('aid',$aid)->setInc('click');
         //查询文章表 tpblog_article 以及分类表
-        $article = DB::name('article')->alias('a')->field('aid,title,author,content,a.keywords,click,addtime,a.cid,cname')->
-        join('tpblog_category tc','a.cid=tc.cid')->where('aid',$aid)->find();
-        //需要的标签名称
-        $tags = Db::name('article_tag')->alias('at')->join('tpblog_tag tt','at.tid=tt.tid')->where('aid',$aid)->select();
-        //需要的分类信息   cname,cid
-        $category = Db::name('category')->alias('c')->field('cname,c.cid')->join('tpblog_article a','c.cid=a.cid')->where('aid',$aid)->find();
+        $article = $this->alias('a')
+                    ->field('aid,title,author,content,a.keywords,click,addtime,a.cid,cname')
+                    ->join('tpblog_category tc','a.cid=tc.cid')
+                    ->where('aid',$aid)
+                    ->find();
+        
         //转义文章内容
         $article['content'] = Markdown::defaultTransform($article['content']);
-    
-
-        //处理文章的评论显示
-        $parentComment = Db::name('comment')->where('aid',$aid)->where('pid',0)->where('is_delete',0)->order('date desc')->select();
-        $childComment = Db::name('comment')->where('aid',$aid)->where('pid','>',0)->where('is_delete',0)->order('cmtid')->select();
-        $totalComment = Db::name('comment')->where('aid',$aid)->count();
-        
-        $data['article'] = $article;
-        $data['tags'] = $tags;
-        $data['category'] = $category;
-        $data['parentComment'] = $parentComment;
-        $data['childComment'] = $childComment;
-        $data['totalComment'] = $totalComment;
        
-        return $data;
+        return $article;
     }
 
+    /**
+     * 获得全部文章列表，用于文章列表形式显示，主要需要 aid,title,addtime,cid,tid
+     * @return array $articleList 全部文章列表信息,不要分页信息,包含 tid
+     */
+    public function articleList()
+    {
+        //需要的信息:文章表信息 tpblog_article  标签名 tpblog_article ==> tpblog_tag
+        $articleList = $this->alias('a')
+                            ->join('tpblog_article_tag at','at.aid=a.aid')
+                            ->where('is_show',1)
+                            ->where('is_delete',0)
+                            ->select();
+        
+        return $articleList;
+    }
 
+    /**
+     * 根据 cid 获得文章列表，用于文章特定分类的显示，主要需要 aid,title,addtime,cid
+     * @return array $articleCategory 特定分类的文章列表信息,不要分页信息
+     */
+    public function articleCategory($cid)
+    {
+        $articleCategory = $this->where('cid',$cid)
+                                ->where('is_show',1)
+                                ->where('is_delete',0)
+                                ->select();
+            
+        return $articleCategory;
+    }
 }

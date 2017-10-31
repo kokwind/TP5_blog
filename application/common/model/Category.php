@@ -19,8 +19,8 @@ class Category extends Model
     }
 
     public function getOneData($cid){
-        $data = $this->where('cid',$cid)->find();
-        return $data;
+        $category = $this->where('cid',$cid)->find();
+        return $category;
     }
 
     public function addData(){
@@ -65,49 +65,61 @@ class Category extends Model
 
     //前台需要的方法
     
+    /**
+     * 获得全部分类信息 各分类的cid,cname,num
+     * @return array $categoryTotal 全部分类信息
+     */
     public function getAllCategory()
     {
-        //显示主页的全部文章
-        //需要的信息:文章表信息 tpblog_article  标签名 tpblog_article ==> tpblog_tag
-        $articleAll = Db::name('article')->where('is_show',1)->where('is_delete',0)->select();
-        //需要的标签名称
-        $tagAll = Db::name('article_tag')->alias('at')->join('tpblog_tag tt','at.tid=tt.tid')->select();
-        //分类的总数信息 cname,cid,num
-        $categoryTotal = $this->alias('c')->field('cname,c.cid,count(aid) as num')->join('tpblog_article a','c.cid=a.cid')->where('a.is_show',1)->where('a.is_delete',0)->group('c.cid')->select();
+        //用于主页显示和分类界面显示
+        $categoryTotal = $this->alias('c')
+                            ->field('cname,c.cid,count(aid) as num')
+                            ->join('tpblog_article a','c.cid=a.cid')
+                            ->where('a.is_show',1)
+                            ->where('a.is_delete',0)
+                            ->group('c.cid')
+                            ->select();
         
-        //合并数据
-        $data['articleAll'] = $articleAll;
-        $data['tagAll'] = $tagAll;
-        $data['categoryTotal'] = $categoryTotal;
-        
-        return $data;
+        return $categoryTotal;
         
     }
 
+    /**
+     * 根据 cid 获得特定分类的文章信息
+     * @param strind $cid 分类id 
+     * @return array $categoryTotal 指定分类的所有信息
+     */
     public function getList($cid)
     {
         //根据分类 cid ，显示主页的全部文章
-        //需要的信息:文章表信息 tpblog_article  标签名 tpblog_article ==> tpblog_tag
-        $articleAll = Db::name('article')->where('cid',$cid)->where('is_show',1)->where('is_delete',0)->select();
-        //获取文章分类数
-        //$categoryNum = Db::name('article')->field('cid,count(aid) AS count')->group('cid')->select();
-        //需要的标签名称
-        $tagAll = Db::name('article_tag')->alias('at')->join('tpblog_tag tt','at.tid=tt.tid')->select();
-        //需要的分类信息
-        //$categoryAll = Db::name('category')->field('cid,cname')->select();
         //分类的总数信息 cname,cid,num
-        $categoryTotal = $this->alias('c')->field('cname,c.cid,count(aid) as num')->join('tpblog_article a','c.cid=a.cid')->where('c.cid',$cid)->where('a.is_show',1)->where('a.is_delete',0)->group('c.cid')->select();
+        $categoryTotal = $this->alias('c')
+                            ->field('cname,c.cid,count(aid) as num')
+                            ->join('tpblog_article a','c.cid=a.cid')
+                            ->where('c.cid',$cid)
+                            ->where('a.is_show',1)
+                            ->where('a.is_delete',0)
+                            ->group('c.cid')
+                            ->select();
         
-        //合并数据
-        $data['articleAll'] = $articleAll;
-        $data['tagAll'] = $tagAll;
-        //$data['categoryAll'] = $categoryAll;
-        //$data['categoryNum'] = $categoryNum;
-        $data['categoryTotal'] = $categoryTotal;
-        
-        return $data;
+        return $categoryTotal;
         
     }
 
-
+    /**
+     * 获得单篇文章分类信息
+     * @param strind $aid 文章id 单篇文章
+     * @return array $category 一篇文章的一个分类信息
+     */
+    public function getArticleCategory($aid)
+    {
+        //需要的分类信息   cname,cid
+        $category = $this->alias('c')
+                        ->field('cname,c.cid')
+                        ->join('tpblog_article a','c.cid=a.cid')
+                        ->where('aid',$aid)
+                        ->find();
+        
+        return $category;
+    }
 }

@@ -75,25 +75,53 @@ class Tag extends Model
     
     //前台需要的功能
     
+    /**
+     * 获得全部的标签数据
+     * @return array $tagTotal 全部的标签，包含 tname,tid,couunt
+     */
     public function getAllTag()
     {
-        //显示Tag的全部内容
-        //需要的信息: tpblog_tag表中   tid,tname
-        //           tpblog_article_tag表中      aid,tid
-        //           tpblog_article表中           aid,title,addtime
-        //获取文章列表
-        $articleList = Db::name('article')->alias('a')->field('a.aid,title,addtime,tid')->
-        join('tpblog_article_tag at','at.aid=a.aid')->where('is_show',1)->where('is_delete',0)->select();
-        
+        //显示Tag的全部内容        
         //tname,tid,num
-        $tagTotal = Db::name('article_tag')->alias('at')->field('tname,t.tid,count(at.aid) as num')->join('tpblog_tag t','at.tid=t.tid')->join('tpblog_article a','a.aid=at.aid')->where('is_show',1)->where('is_delete',0)->group('tid')->select();
+        $tagTotal = $this->alias('t')
+                        ->field('tname,t.tid,count(at.aid) as num')
+                        ->join('tpblog_article_tag at','at.tid=t.tid')
+                        ->join('tpblog_article a','a.aid=at.aid')
+                        ->where('is_show',1)
+                        ->where('is_delete',0)
+                        ->group('tid')
+                        ->select();
         
-        //合并数据
-        $data['articleList'] = $articleList;
-        $data['tagTotal'] = $tagTotal;
-        
-        return $data;
+        return $tagTotal;
         
     }
 
+    /**
+     * 获得与文章关联的标签数据
+     * @param strind $aid 文章id 'all'为显示全部的的关联数据
+     * @return array $tags 一篇文章的多个标签
+     */
+    public function getArticleTag($aid='all')
+    {
+        if($aid != 'all'){
+            //需要的一篇文章的标签名称
+            $tags = $this->alias('tt')
+                        ->join('tpblog_article_tag at','at.tid=tt.tid')
+                        ->where('aid',$aid)
+                        ->select();
+
+            return $tags;
+        }
+        else if($aid == 'all'){
+            //需要全部的文章标签关联数据
+            $tagAll = $this->alias('tt')
+                        ->join('tpblog_article_tag at','at.tid=tt.tid')
+                        ->select();
+
+            return $tagAll;
+        }
+        
+    }
+
+    
 }

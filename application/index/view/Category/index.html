@@ -23,34 +23,6 @@
     <div class="row index">
         <div class="col-sm-offset-1">
 
-            <div class="dropdown" >
-                <button class="btn btn-default dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
-                    <span class="octicon octicon-list-unordered"></span>&nbsp;Categories
-                    <span class="caret"></span>
-                </button>
-                <ul class="dropdown-menu" aria-labelledby="dropdownMenu1">
-                    <li>
-                        <a href="{:url('index/index/category')}" class="categories-item" >
-                            All&nbsp;
-                            <span class="categories-badge"> all
-                            
-                            </span>
-                        </a>
-                    </li>
-                    {volist name='categoryTotal' id='category'}
-                    <li>
-                        <a href="{:url('index/index/categoryList',['cid'=>$category.cid])}" class="categories-item" >
-                            {$category.cname}&nbsp;
-                            <span class="categories-badge"> 
-                            
-                            <span class="categories-badge">{$category.num}</span>
-                            
-                            
-                        </a>
-                    </li>
-                    {/volist}
-                </ul>
-            </div>
         
         {volist name='articleAll' id='articleNow'}
         <section class="category-slice" post-cate="All">

@@ -100,8 +100,7 @@
             <div class="module">
                 <span class="title">分类</span>
                 {php}
-                $data = model('Category')->getAllCategory();
-                $categoryTotal = $data['categoryTotal'];
+                $categoryTotal = model('Category')->getAllCategory();
                 foreach($categoryTotal as $k => $v){
                     echo "<div class='row'><a href='/index/index/categoryList/cid/".$v['cid']."'><div class='col-md-8' >".$v['cname']."</div></a><div class='col-md-4' >".$v['num']."</div></div>";
                 }
@@ -127,8 +126,7 @@
                 <span class="title">标签</span>
                 <div class="row">
                     {php}
-                    $data = model('Tag')->getAllTag();
-                    $tagTotal = $data['tagTotal'];
+                    $tagTotal = model('Tag')->getAllTag();
                     foreach($tagTotal as $k => $v){
                         echo "<div class='col-md-6' ><a href='/index/index/tag.html#".$v['tid']."'><span>".$v['tname']."</span>&nbsp;<span>".$v['num']."</span></a></div>";
                     }

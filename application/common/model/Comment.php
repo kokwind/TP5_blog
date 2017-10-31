@@ -82,47 +82,66 @@ class Comment extends Model
     }
 
 
-    //回复评论
-    public function replyComment($contentAid,$ouip)
+    /**
+     * 实现回复评论的功能
+     * @param strind $message 评论内容 aid,pid,content,ouip
+     * @return array $commentAll 一篇文章的全部评论信息
+     */
+    public function replyComment($message)
     {
         //得到评论的 aid,pid,content     以及 用户ip
         //存入数据库
         // cmtid 自增  ouid
-        if($contentAid['pid'] == 0){
+        if($message['pid'] == 0){
             //评论的是文章，需要作者审核,pid默认为0
             $data['status'] = 0;
-            $data['ouip'] = $ouip;
-            $data['aid'] = $contentAid['aid'];
-            $data['content'] = $contentAid['content'];
+            $data['ouip'] = $message['ouip'];
+            $data['aid'] = $message['aid'];
+            $data['content'] = $message['content'];
             $data['date'] = time();
             //存入数据
-            $resADD = Db::name('comment')->insert($data);
+            $resADD = $this->insert($data);
             //得到自增主键id 
-            $cmtid = DB::name('comment')->getLastInsID();
+            $cmtid = $this->getLastInsID();
             
             //得到返回数据
-            $returnData = DB::name('comment')->where('cmtid',$cmtid)->find();
+            $returnData = $this->where('cmtid',$cmtid)->find();
             $returnData['date'] = date('Y-m-d H:i:s',$returnData['date']);
             return $returnData;
         }else{
             //评论的是用户，不需要作者审核,pid为传过来的pid
             
-            $data['ouip'] = $ouip;
-            $data['pid'] = $contentAid['pid'];
-            $data['aid'] = $contentAid['aid'];
-            $data['content'] = $contentAid['content'];
+            $data['ouip'] = $message['ouip'];
+            $data['pid'] = $message['pid'];
+            $data['aid'] = $message['aid'];
+            $data['content'] = $message['content'];
             $data['date'] = time();
             $data['status'] = 1;
             //存入数据
-            $resADD = Db::name('comment')->insert($data);
+            $resADD = $this->insert($data);
             //得到自增主键id 
-            $cmtid = DB::name('comment')->getLastInsID();
+            $cmtid = $this->getLastInsID();
             
             //得到返回数据
-            $returnData = DB::name('comment')->where('cmtid',$cmtid)->find();
+            $returnData = $this->where('cmtid',$cmtid)->find();
             $returnData['date'] = date('Y-m-d H:i:s',$returnData['date']);
             return $returnData;
         }
     }
 
+    /**
+     * 获得单篇文章全部评论信息
+     * @param strind $aid 文章id 单篇文章
+     * @return array $commentAll 一篇文章的全部评论信息
+     */
+    public function getArticleComments($aid)
+    {
+        //直接获得文章的全部评论，由controller完成分离数据
+        $commentAll = $this->where('aid',$aid)
+                        ->where('is_delete',0)
+                        ->order('date desc')
+                        ->select();
+
+        return $commentAll;
+    }
 }

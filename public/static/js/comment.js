@@ -1,19 +1,18 @@
-
 function comment(obj){
     
     var content = $(obj).parent().find('textarea').val();
     var tarPid = $(obj).attr('pid');
-    console.log(tarPid);
-    url = "{:url('index/index/comment')}";
-    //console.log(url);
+    var thisUrl = $('#usercomment').attr('url');
+    var thisAid = $('#usercomment').attr('aid');
+    
     
     //点击评论，先删除下面的回复框
     $('#reply-textarea').remove();
 
     $.ajax({  
                 type:"post",  
-                url:"{:url('index/index/comment')}",  
-                data:{ "aid":"{$article.aid}","content":content,"pid":tarPid },//这里data传递过去的是序列化以后的字符串  
+                url:thisUrl,  
+                data:{ "aid":thisAid,"content":content,"pid":tarPid },//这里data传递过去的是序列化以后的字符串  
                 success:function(mes){
                     //直接评论，就是评论本文，pid为0，最顶级  
                     var response = JSON.parse(mes);     //回应对象
@@ -29,8 +28,7 @@ function comment(obj){
                         
                         }else{
                             //回复用户
-                            console.log('#reply-'+tarPid);
-                            console.log($('#reply-'+tarPid));
+                            
                             $('#reply-'+tarPid).append("<div id='comment-"+tarPid+"\' class='row b-user b-parent'><div class='col-xs-2 col-sm-1 col-md-1 col-lg-1 b-pic-col'><span class='glyphicon glyphicon-user'></span></div><div class='col-xs-10 col-sm-11 col-md-11 col-lg-11 b-content-col b-cc-first' id='reply-"+tarPid+"\'><p class='b-content'><span class='b-user-name'></span>"+response.ouip+"回复："+response.content+"</p><p class='b-date'>"+response.date+" <a href='javascript:;' aid=\'"+response.aid+"\' pid=\'"+tarPid+"\' username=\'"+response.ouid+"\' onclick='reply(this)'>回复</a></p><div class='b-clear-float'></div></div></div>");
                             $('#reply-'+tarPid).append("<div class='row'><div class='col-xs-12 col-sm-12 col-md-12 col-lg-12'><div class='b-border'></div></div></div>");                
                             
