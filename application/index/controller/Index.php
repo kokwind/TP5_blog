@@ -16,13 +16,16 @@ class Index extends Controller
     {
         //获取首页文章的全部分页信息
         $indexModel = new IndexArticle;
-        $data = $indexModel->getPageDate();
+        $articleList = $indexModel->getPageDate();
         //获取全部的分类信息
         $categoryModel = new IndexCategory;
         $categoryTotal = $categoryModel->getAllCategory();
+        //获取全部标签信息
+        $tagModel = new IndexTag;
+        $tagAll = $tagModel->getArticleTag();
             
-        $this->assign('articleAll',$data['articleList']);
-        $this->assign('tagAll',$data['tagList']);
+        $this->assign('articleAll',$articleList);
+        $this->assign('tagAll',$tagAll);
         $this->assign('categoryAll',$categoryTotal);
         return $this->fetch('Index/index');
 
