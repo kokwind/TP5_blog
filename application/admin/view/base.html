@@ -25,21 +25,24 @@
 <!--基础模板头部-->
 <div class="row" style="height:50px">
 {block name="head"}
-	<div class="col-md-9">
-	<ul class="list-unstyled list-inline">
-		<li><a href="{:url('admin/index/index')}"><span>后台首页</span></a></li>
-		<li><a href="#contentList" data-toggle="collapse"><span>内容管理</span></a></li>
-		<li><a href="#commentList" data-toggle="collapse"><span>评论管理</span></a></li>
-		<li><a href="#recycleList" data-toggle="collapse"><span>回收管理</span></a></li>
-		<li><a href="#setupList" data-toggle="collapse"><span>网站设置</span></a></li>
-	</ul>
-	</div>
-	<div class="col-md-3">
-	<ul class="list-unstyled list-inline">
-		<li class="nt-go-index"><a href="" target="_blank"><span class="fa fa-home"></span> 前台首页</a></li>
-		<li class="nt-sign-out"><a href=""><span class="fa fa-sign-out"></span> 退出</a></li>
-	</ul>
-	</div>
+	<nav class="navbar-default ">
+		<div class="navbar-header">
+		<a href="{:url('admin/index/index')}"><img src="{:url('/static/img/admin/blog.jpg','','')}" height="40"></a>
+		</div>
+		
+		<div class="collapse navbar-collapse" >
+			<ul class="nav navbar-nav">
+				<li><a href="#contentList" data-toggle="collapse"  aria-expanded="true">内容管理</a></li>
+				<li><a href="#commentList" data-toggle="collapse">评论管理</a></li>
+				<li><a href="#recycleList" data-toggle="collapse">回收管理</a></li>
+				<li><a href="#setupList" data-toggle="collapse">网站设置</a></li>
+			</ul>
+			<ul class="nav navbar-nav" style="float:right">
+				<li><a href="#">前台首页</a></li>
+				<li><a href="#">退出</a></li>
+			</ul>
+		</div>
+	</nav>
 {/block}
 </div>
 
@@ -48,46 +51,119 @@
 <!--显示左侧区域-->
 <div class="col-md-2" style="width:180px">
 {block name="left"}
-	<div id='contentList' class="collapse">
-		<h3 class="page-header">文章管理</h3>
-		<ul class="list-unstyled">
-			<li><a href="{:url('admin/article/add')}"><span>添加文章</span></a></li>
-			<li><a href="{:url('admin/article/index')}"><span>文章列表</span></a></li>
-		</ul>
-		<h3 class="page-header">标签管理</h3>
-		<ul class="list-unstyled">
-			<li><a href="{:url('admin/tag/add')}"><span>添加标签</span></a></li>
-			<li><a href="{:url('admin/tag/index')}"><span>标签列表</span></a></li>
-		</ul>
-		<h3 class="page-header">分类管理</h3>
-		<ul class="list-unstyled">
-			<li><a href="{:url('admin/category/add')}"><span>添加分类</span></a></li>
-			<li><a href="{:url('admin/category/index')}"><span>分类列表</span></a></li>
-		</ul>
+	<div id='contentList' class="collapse in">
+		<div class="list-group">
+			<a class="list-group-item active">
+				<h5 class="list-group-item-heading">
+					文章管理
+				</h5>
+			</a>
+			<a href="{:url('admin/article/add')}" class="list-group-item">
+				<p class="list-group-item-text">
+					添加文章
+				</p>
+			</a>
+			<a href="{:url('admin/article/index')}" class="list-group-item">
+				<p class="list-group-item-text">
+					文章列表
+				</p>
+			</a>
+		</div>
+		<div class="list-group">
+			<a class="list-group-item active">
+				<h5 class="list-group-item-heading">
+					标签管理
+				</h5>
+			</a>
+			<a href="{:url('admin/tag/add')}" class="list-group-item">
+				<p class="list-group-item-text">
+					添加标签
+				</p>
+			</a>
+			<a href="{:url('admin/tag/index')}" class="list-group-item">
+				<p class="list-group-item-text">
+					标签列表
+				</p>
+			</a>
+		</div>
+		<div class="list-group">
+			<a class="list-group-item active">
+				<h5 class="list-group-item-heading">
+					分类管理
+				</h5>
+			</a>
+			<a href="{:url('admin/category/add')}" class="list-group-item">
+				<p class="list-group-item-text">
+					添加分类
+				</p>
+			</a>
+			<a href="{:url('admin/category/index')}" class="list-group-item">
+				<p class="list-group-item-text">
+					分类列表
+				</p>
+			</a>
+		</div>
 	</div>
-	
+
 	<div id='commentList' class="collapse">
-		<h3 class="page-header">评论管理</h3>
-		<ul class="list-unstyled">
-			<li><a href="{:url('admin/comment/index')}"><span>评论列表</span></a></li>
-		</ul>
+		<div class="list-group">
+			<a class="list-group-item active">
+				<h5 class="list-group-item-heading">
+					评论管理
+				</h5>
+			</a>
+			<a href="{:url('admin/comment/index')}" class="list-group-item">
+				<p class="list-group-item-text">
+					评论列表
+				</p>
+			</a>
+			
+		</div>
 	</div>
-	
+
 	<div id='recycleList' class="collapse">
-		<h3 class="page-header">回收管理</h3>
-		<ul class="list-unstyled">
-			<li><a href="{:url('admin/recycle/article')}"><span>已删文章</span></a></li>
-			<li><a href="{:url('admin/recycle/comment')}"><span>已删评论</span></a></li>
-			<li><a href="{:url('admin/recycle/link')}"><span>已删友链</span></a></li>
-		</ul>
+		<div class="list-group">
+			<a class="list-group-item active">
+				<h5 class="list-group-item-heading">
+					回收管理
+				</h5>
+			</a>
+			<a href="{:url('admin/recycle/article')}" class="list-group-item">
+				<p class="list-group-item-text">
+					已删文章
+				</p>
+			</a>
+			<a href="{:url('admin/recycle/comment')}" class="list-group-item">
+				<p class="list-group-item-text">
+					已删评论
+				</p>
+			</a>
+			<a href="{:url('admin/recycle/link')}" class="list-group-item">
+				<p class="list-group-item-text">
+					已删友链
+				</p>
+			</a>
+		</div>
 	</div>
-	
+		
 	<div id='setupList' class="collapse">
-		<h3 class="page-header">友情链接</h3>
-		<ul class="list-unstyled">
-			<li><a href="{:url('admin/link/add')}"><span>添加友链</span></a></li>
-			<li><a href="{:url('admin/link/index')}"><span>友链列表</span></a></li>
-		</ul>
+		<div class="list-group">
+			<a class="list-group-item active">
+				<h5 class="list-group-item-heading">
+					友情链接
+				</h5>
+			</a>
+			<a href="{:url('admin/link/add')}" class="list-group-item">
+				<p class="list-group-item-text">
+					添加友链
+				</p>
+			</a>
+			<a href="{:url('admin/link/index')}" class="list-group-item">
+				<p class="list-group-item-text">
+					友链列表
+				</p>
+			</a>
+		</div>
 	</div>
 {/block}
 </div>
