@@ -33,13 +33,13 @@
                     <p class="post-tag">
                         <span>
                             <a href="{:url('index/Index/categoryList',['cid'=>$category.cid])}">
-                            <span class="octicon octicon-list-unordered"></span>&nbsp;{$category.cname}
+                            <span class="octicon octicon-list-unordered"></span>&nbsp;{$category.cname}&nbsp;
                             </a>
                         </span>
                         <span>
                             {volist name='tags' id='tag'}
                             <a class="word-keep" href="{:url('index/Index/tag',['tid'=>$tag.tid])}">
-                            <span class="octicon octicon-tag"></span>&nbsp;{$tag.tname}
+                            <span class="octicon octicon-tag"></span>&nbsp;{$tag.tname}&nbsp;&nbsp;
                             {/volist}
                             </a>                 
                         </span>

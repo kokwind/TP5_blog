@@ -39,76 +39,84 @@
 
 {block name="main"}
 
-    <form action="{:url('admin/Article/add')}" method="post">
+    <form action="{:url('admin/Article/add')}" method="post" class="form-horizontal">
         <!--用于判断是否有请求-->
         <input type="hidden" name="request" value="addpost">
         
         <div class="row">
-            <div class="col-md-3 " style="width:180px;height:25px">
-                <div class="input-group">
-                    <span class="input-group-addon" style="width:60px;height:25px;font-size:10px">所属分类</span>
-                    <select class="form-control" name="cid" id="category" style="width:100px;height:30px;font-size:10px" onchange="show_warehouse()">
-                        {volist name='allCategory' id='category'}
-                        <option style="width:60px;height:25px;font-size:15px" value="{$category.cid}">{$category.cname}</option>
-                        {/volist}
-                    </select>  
-                </div>   
-            </div>
-        </div>
-        <br>
-        <div class="row">
-            <div class="col-md-4 ">
-                <div class="input-group">
-                    <span class="input-group-addon">标题</span>
-                    <input type="text" class="form-control" name="title" id="title">
+            <div class="col-md-4">
+                <div class="form-group ">
+                    <label for="category" class="col-md-3 control-label">分类</label>
+                    <div class="col-md-9">
+                        <select class="form-control" name="cid" id="category" style="width:100px;height:30px;font-size:10px">
+                            {volist name='allCategory' id='category'}
+                            <option style="width:60px;height:25px;font-size:15px" value="{$category.cid}">{$category.cname}</option>
+                            {/volist}
+                        </select>
+                    </div>
                 </div>
             </div>
         </div>
-        <br>
         <div class="row">
-            <div class="col-md-4 ">
-                <div class="input-group">
-                    <span class="input-group-addon">作者</span>
-                    <input type="text" class="form-control" name="author" id="author">
+            <div class="col-md-4">
+                <div class="form-group ">
+                    <label for="title" class="col-md-3 control-label">标题</label>
+                    <div class="col-md-9">
+                        <input type="text" class="form-control" id="title" name="title">
+                    </div>
                 </div>
             </div>
         </div>
-        <br>
-        
         <div class="row">
-            <div class="col-md-10 ">
-                <div class="input-group">
-                    <span class="input-group-addon">标签</span>
-                    <ul class="list-unstyle list-inline">
-                        <li></li>
-                        {volist name='allTag' id='tag'}
-                        <li><input type="checkbox" name="tid[]" value="{$tag.tid}">{$tag.tname}</li>
-                        {/volist}
-                    </ul>
+            <div class="col-md-4">
+                <div class="form-group ">
+                    <label for="author" class="col-md-3 control-label">作者</label>
+                    <div class="col-md-9">
+                        <input type="text" class="form-control" id="author" name="author">
+                    </div>
                 </div>
             </div>
         </div>
-        <br>
-        
         <div class="row">
-            <div class="col-md-4 ">
-                <div class="input-group">
-                    <span class="input-group-addon">关键词</span>
-                    <input type="text" class="form-control" placeholder="多个关键词用顿号分隔" name="keywords" id="keywords">
+            <div class="col-md-4">
+                <div class="form-group ">
+                    <label for="tid" class="col-md-3 control-label">标签</label>
+                    <div class="col-md-9">
+                        <div class="form-group-inline" >
+                            {volist name='allTag' id='tag'}
+                            <div class="checkbox-inline">
+                                <label>
+                                    <input type="checkbox" name="tid[]" value="{$tag.tid}">{$tag.tname}
+                                </label>
+                            </div>
+                            {/volist}
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
-        <br>
-        
         <div class="row">
-            <div class="col-md-6">
+            <div class="col-md-4" >
                 <div class="form-group">
-                    <label for="description">文本框</label>
-                    <textarea name="description" id="description" class="form-control" rows="3" placeholder="可以不填，如不填；则截取文章内容前100字为描述"></textarea>
+                    <label for="keywords" class="col-md-3 control-label">关键词</label>
+                    <div class="col-md-9">
+                        <input type="text" class="form-control" id="keywords" name="keywords" placeholder="多个关键词用顿号分隔">
+                    </div>
                 </div>
             </div>
         </div>
-        <br>  
+        <br>
+        <div class="row">
+            <div class="col-md-4" >
+                <div class="form-group">
+                    <label for="description" class="col-md-3 control-label">描述</label>
+                    <div class="col-md-9">
+                        <textarea name="description" id="description" class="form-control" rows="4" placeholder="可以不填，如不填；则截取文章内容前100字为描述"></textarea>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
         <div class="row">
             <div class="col-md-10">
                 <div id="markdown" class="text-center">内容MarkDown解析器</div>
@@ -119,38 +127,57 @@
                
             </div>
         </div>
-        <br>
         <div class="row">
             <div class="col-md-4">
-                <div class="form-group">
-                    <span>是否原创</span>
-                    <label class="radio-inline"><input type="radio" name="is_original" value="1">是</label>
-                    <label class="radio-inline"><input type="radio" name="is_original" value="0">否</label>
+                <div class="form-group ">
+                    <label for="is_original" class="col-md-3 control-label">是否原创</label>
+                    <div class="col-md-9">
+                        <div class="form-group-inline" >
+                            <label class="radio-inline">
+                                <input type="radio" name="is_original" id="is_original" value="1"> 是
+                            </label>
+                            <label class="radio-inline">
+                                <input type="radio" name="is_original" id="is_original" value="0"> 否
+                            </label>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
-        <br>
         <div class="row">
             <div class="col-md-4">
-                <div class="form-group">
-                    <span>是否置顶</span>
-                    <label class="radio-inline"><input type="radio" name="is_top" value="1">是</label>
-                    <label class="radio-inline"><input type="radio" name="is_top" value="0">否</label>
+                <div class="form-group ">
+                    <label for="is_top" class="col-md-3 control-label">是否置顶</label>
+                    <div class="col-md-9">
+                        <div class="form-group-inline" >
+                            <label class="radio-inline">
+                                <input type="radio" name="is_top" id="is_top" value="1"> 是
+                            </label>
+                            <label class="radio-inline">
+                                <input type="radio" name="is_top" id="is_top" value="0"> 否
+                            </label>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
-        <br>
         <div class="row">
             <div class="col-md-4">
-                <div class="form-group">
-                    <span>是否显示</span>
-                    <label class="radio-inline"><input type="radio" name="is_show" value="1">是</label>
-                    <label class="radio-inline"><input type="radio" name="is_show" value="0">否</label>
+                <div class="form-group ">
+                    <label for="is_show" class="col-md-3 control-label">是否显示</label>
+                    <div class="col-md-9">
+                        <div class="form-group-inline" >
+                            <label class="radio-inline">
+                                <input type="radio" name="is_show" id="is_show" value="1"> 是
+                            </label>
+                            <label class="radio-inline">
+                                <input type="radio" name="is_show" id="is_show" value="0"> 否
+                            </label>
+                        </div>
+                    </div>
                 </div>
             </div>
-        </div>
-        <br>
-        
+        </div>        
         <div class="row">
             <div class="col-md-4">
                 <input class="btn btn-success" type="submit" value="发表">

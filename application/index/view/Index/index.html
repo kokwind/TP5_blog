@@ -10,14 +10,13 @@
       <div class="col-sm-offset-1">
 
         {volist name='articleAll' id='articleNow'}
-        <section class="category-slice" post-cate="All">
+        <section class="category-slice" post-cate="All" style="border:1px solid red">
         <!--第一篇博客显示-->
             <article>
-                <header>
-                    <span class="octicon octicon-calendar"></span>&nbsp;<span>{$articleNow.addtime|date="Y-m-d",###}</span>
-                </header>
-                <div class="module">
+                
+                <div class="module" style="border:1px solid blue">
                     <a class="title" href="{:url('index/Index/article',['aid'=>$articleNow.aid])}">{$articleNow.title}</a>
+                    <span class="octicon octicon-calendar"></span>&nbsp;<span>{$articleNow.addtime|date="Y-m-d",###}</span>
                     <p>
                        可能为空{$articleNow.description}
                     </p>

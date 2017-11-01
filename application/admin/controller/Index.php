@@ -17,6 +17,10 @@ class Index extends Controller
         $this->assign('delete_article',$data['delete_article']);
         $this->assign('hide_article',$data['hide_article']);
         $this->assign('all_comment',$data['all_comment']);
+        $this->assign('delete_comment',$data['delete_comment']);
+        $this->assign('all_link',$data['all_link']);
+        $this->assign('hide_link',$data['hide_link']);
+        $this->assign('delete_link',$data['delete_link']);
         //渲染模板
         return $this->fetch("Index/index");
     }

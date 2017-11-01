@@ -88,7 +88,7 @@ class Article extends Base
             $this->assign('allTag',$allTag);
             
             //渲染模板
-            return $this->fetch();
+            return $this->fetch('Article/add');
         }
         
     }
