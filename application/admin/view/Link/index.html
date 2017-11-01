@@ -19,12 +19,12 @@
         <tr>
             <td>{$link.lid}</td>
             <td>{$link.lname}</td>
-            <td><a href="" target="_blank">{$link.url}</a></td>
+            <td><a href="{$link.url}" target="_blank">{$link.url}</a></td>
             <th>{if condition="$link.is_show == 1"} ✔ {else} ✘ {/if}</th>
             <td> 
-            <a href="{:url('admin/link/edit',['lid'=>$link.lid])}">修改</a>
+            <a href="{:url('admin/Link/edit',['lid'=>$link.lid])}">修改</a>
              | 
-            <a href="javascript:if(confirm('确定要删除吗?')) location='{:url('admin/link/delete',['lid'=>$link.lid])}'">删除</a>
+            <a href="javascript:if(confirm('确定要删除吗?')) location='{:url('admin/Link/delete',['lid'=>$link.lid])}'">删除</a>
             </td>
         </tr>
         {/volist}

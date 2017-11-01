@@ -21,9 +21,9 @@
             <td>{$article.author}</td>
             <td>{$article.title}</td>
             <td> 
-            <a href="{:url('admin/article/recycle',['aid'=>$article.aid,'status'=>0])}">恢复</a>
+            <a href="{:url('admin/Article/recycle',['aid'=>$article.aid,'status'=>0])}">恢复</a>
             | 
-            <a href="javascript:if(confirm('确定要删除吗?')) location='{:url('admin/article/recycle',['aid'=>$article.aid,'status'=>1])}'">彻底删除</a>
+            <a href="javascript:if(confirm('确定要删除吗?')) location='{:url('admin/Article/recycle',['aid'=>$article.aid,'status'=>1])}'">彻底删除</a>
             </td>
         </tr>
         {/volist}

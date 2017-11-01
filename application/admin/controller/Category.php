@@ -1,14 +1,15 @@
 <?php
 namespace app\admin\controller;
-use think\Controller;
+use app\admin\controller\Base;
 use app\common\model\Category as AdminCategory;
 use think\Request;          //获取当前请求信息
+use think\Session;
 use app\common\model\Article as AdminArticle;
 
-class Category extends Controller
+class Category extends Base
 {
     //实现文章分类的相关操作
-
+    
     public function index(){
         $categoryModel = new AdminCategory;
         $allCategory = $categoryModel->getAllData();

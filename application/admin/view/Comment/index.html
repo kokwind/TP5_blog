@@ -27,8 +27,8 @@
             {if condition="$comment.status == 1"}√ {else /}× {/if}
         </th> 
         <td>
-        <a href="{:url('admin/comment/changeStatus',['cmtid'=>$comment.cmtid,'status'=>0])}">取消审核</a>
-        <a href="{:url('admin/comment/changeStatus',['cmtid'=>$comment.cmtid,'status'=>1])}">通过审核</a>
+        <a href="{:url('admin/Comment/changeStatus',['cmtid'=>$comment.cmtid,'status'=>0])}">取消审核</a>
+        <a href="{:url('admin/Comment/changeStatus',['cmtid'=>$comment.cmtid,'status'=>1])}">通过审核</a>
         <a href="javascript:if(confirm('确定要删除吗?')) location='{:url('admin/comment/delete',['cmtid'=>$comment.cmtid])}'">删除</a>
         </td>
         </tr>

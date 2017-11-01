@@ -1,10 +1,11 @@
 <?php
 namespace app\admin\controller;
-use think\Controller;
+use app\admin\controller\Base;
 use app\common\model\Tag as AdminTag;
 use think\Request;          //获取当前请求信息
+use think\Session;
 
-class Tag extends Controller
+class Tag extends Base
 {
     //实现文章标签的相关操作
 

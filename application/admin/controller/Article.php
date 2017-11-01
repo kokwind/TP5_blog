@@ -1,13 +1,14 @@
 <?php
 namespace app\admin\controller;
-use think\Controller;
+use app\admin\controller\Base;
 use think\Request;          //获取当前请求信息
 use think\Validate;     //使用tp5的验证器
+use think\Session;
 use app\common\model\Article as AdminArticle;
 use app\common\model\Category as AdminCategory;
 use app\common\model\Tag as AdminTag;
 
-class Article extends Controller
+class Article extends Base
 {
     //实现文章的增删改查
     
@@ -37,7 +38,7 @@ class Article extends Controller
     {
         //先检查是否有post请求
         $request_action = isset($_POST['request']) ? $_POST['request']:'';
-        
+       
         if($request_action == 'addpost'){
             
             $request = Request::instance();
@@ -79,12 +80,13 @@ class Article extends Controller
             $allCategory = $categoryModel->getAllData();
             //可供选择的标签信息
             $tagModel = new AdminTag;
-            $allTag = $tagModel->getAllTag();
+            $allTag = $tagModel->getAllData();
             // $articleModel = new AdminArticle;
             // $data = $articleModel->getAddIndex();
             //赋值
             $this->assign('allCategory',$allCategory);
             $this->assign('allTag',$allTag);
+            
             //渲染模板
             return $this->fetch();
         }
@@ -113,13 +115,15 @@ class Article extends Controller
                 $editArticle = $articleModel->updateArticle($method,$requestArr);
                 //查找全部的tag信息，包含了aid，  aid,tid,tname
                 $tagModel = new AdminTag;
-                $tagList = $tagModel->getArticleTag();
+                $checkTag = $tagModel->getArticleTag($requestArr['aid']);
+                $allTag = $tagModel->getAllData();
                 //可供选择的分类信息
                 $categoryModel = new AdminCategory;
                 $allCategory = $categoryModel->getAllData();
                 
                 $this->assign('editArticle',$editArticle);
-                $this->assign('tagList',$tagList);
+                $this->assign('checkTag',$checkTag);
+                $this->assign('allTag',$allTag);
                 $this->assign('categoryList',$allCategory);
                 return $this->fetch('Article/edit');
 

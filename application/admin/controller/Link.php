@@ -1,14 +1,15 @@
 <?php
 namespace app\admin\controller;
-use think\Controller;
+use app\admin\controller\Base;
 use app\admin\model\Link as AdminLink;
 use think\Request;          //获取当前请求信息
 use think\Validate;     //使用tp5的验证器
+use think\Session;
 
-class Link extends Controller
+class Link extends Base
 {
     //实现友情链接的相关操作
-
+    
     public function index()
     {
         $linkModel = new AdminLink;

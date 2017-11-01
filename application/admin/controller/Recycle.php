@@ -1,13 +1,14 @@
 <?php
 namespace app\admin\controller;
-use think\Controller;
+use app\admin\controller\Base;
 use think\Request;          //获取当前请求信息
 use think\Validate;     //使用tp5的验证器
+use think\Session;
 use app\common\model\Article as AdminArticle;
 use app\common\model\Comment as AdminComment;
 use app\admin\model\Link as AdminLink;
 
-class Recycle extends Controller
+class Recycle extends Base
 {
     //管理回收站
     

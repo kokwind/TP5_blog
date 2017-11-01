@@ -42,9 +42,9 @@
         <td>{$article.click}</td>
         <td>{$article.addtime|date="Y-m-d H:i:s",###}</td>
         <td> 
-            <a href="{:url('admin/article/edit',['aid'=>$article.aid])}">修改</a>
+            <a href="{:url('admin/Article/edit',['aid'=>$article.aid])}">修改</a>
             | 
-            <a href="javascript:if(confirm('确定要删除吗?')) location='{:url('admin/article/delete',['aid'=>$article.aid])}'">删除</a>
+            <a href="javascript:if(confirm('确定要删除吗?')) location='{:url('admin/Article/delete',['aid'=>$article.aid])}'">删除</a>
         </td>
         </tr>
         {/volist}

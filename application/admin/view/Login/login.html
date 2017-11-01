@@ -3,24 +3,40 @@
 <head>
 	<meta charset="UTF-8">
 	<title>登录后台管理系统</title>
+    <link rel="stylesheet" href="{:url('/static/bootstrap/css/bootstrap.min.css','','')}" >
     
-    <link rel="stylesheet" href="/static/bootstrap/css/bootstrap.min.css"/>
-    <link rel="stylesheet" href="/static/octicons/octicons.css" >
-    <link rel="stylesheet" type="text/css" href="/static/css/style.css" />
+    <link rel="stylesheet" href="{:url('/static/octicons/octicons.css','','')}" >
+    <link rel="stylesheet" type="text/css" href="{:url('/static/css/style.css','','')}" />
 
-    <link rel="stylesheet" type="text/css" href="/static/css/admin/login.css"/>  
-    <script type="text/javascript" src="/static/js/login.js"></script>
+    <link rel="stylesheet" type="text/css" href="{:url('/static/css/admin/login.css','','')}"/>  
+    <script type="text/javascript" src="{:url('/static/js/login.js','','')}"></script>
 
 </head>
 <body>
     
 <div id="login_frame">  
-    <p id="image_logo"><img src="/static/img/login/login.jpg"></p>  
-    <form method="post" action="/admin/index/index" onsubmit="login()">  
-
-        <p><label class="label_input">用户名</label><input type="text" id="username" class="text_field"/></p>  
-        <p><label class="label_input">密码</label><input type="text" id="password" class="text_field"/></p>  
-
+    <h3>后台用户登陆</h3>
+    <br>
+    <form method="post" action="{:url('admin/Login/login')}" onsubmit="return login()">  
+        <input type="hidden" name="request" value="loginpost">
+        <div class="row">
+            <div class="col-md-10 col-md-offset-1">
+                <div class="input-group">
+                    <span class="input-group-addon">用户名</span>
+                    <input type="text" class="form-control" name="username" id="username">
+                </div>
+            </div>
+        </div>
+        <br>
+        <div class="row">
+            <div class="col-md-10 col-md-offset-1">
+                <div class="input-group">
+                    <span class="input-group-addon">密&nbsp;&nbsp;码</span>
+                    <input type="text" class="form-control" name="password" id="password">
+                </div>
+            </div>
+        </div>
+        <br>
         <div id="login_control">  
             <input type="submit" id="btn_login" value="登录" />  
             &nbsp;&nbsp;&nbsp;&nbsp;

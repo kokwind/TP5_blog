@@ -23,23 +23,18 @@
 <div class="container-fluid">
 
 <!--基础模板头部-->
-<div class="row" style="height:50px">
+<div class="row" style="height:50px" >
 {block name="head"}
 	<nav class="navbar-default ">
 		<div class="navbar-header">
-		<a href="{:url('admin/index/index')}"><img src="{:url('/static/img/admin/blog.jpg','','')}" height="40"></a>
+		<a href="{:url('admin/Index/index')}"><img src="{:url('/static/img/admin/blog.jpg','','')}" height="40"></a>
 		</div>
 		
 		<div class="collapse navbar-collapse" >
 			<ul class="nav navbar-nav">
-				<li><a href="#contentList" data-toggle="collapse"  aria-expanded="true">内容管理</a></li>
-				<li><a href="#commentList" data-toggle="collapse">评论管理</a></li>
-				<li><a href="#recycleList" data-toggle="collapse">回收管理</a></li>
-				<li><a href="#setupList" data-toggle="collapse">网站设置</a></li>
-			</ul>
-			<ul class="nav navbar-nav" style="float:right">
-				<li><a href="#">前台首页</a></li>
-				<li><a href="#">退出</a></li>
+				<li><a href="{:url('admin/Index/index')}">后台首页</a></li>
+				<li><a href="{:url('index/Index/index')}" >前台首页</a></li>
+				<li><a href="{:url('admin/Login/logout')}" >安全退出</a></li>
 			</ul>
 		</div>
 	</nav>
@@ -51,120 +46,91 @@
 <!--显示左侧区域-->
 <div class="col-md-2" style="width:180px">
 {block name="left"}
-	<div id='contentList' class="collapse in">
-		<div class="list-group">
-			<a class="list-group-item active">
-				<h5 class="list-group-item-heading">
-					文章管理
-				</h5>
-			</a>
-			<a href="{:url('admin/article/add')}" class="list-group-item">
-				<p class="list-group-item-text">
-					添加文章
-				</p>
-			</a>
-			<a href="{:url('admin/article/index')}" class="list-group-item">
-				<p class="list-group-item-text">
-					文章列表
-				</p>
-			</a>
-		</div>
-		<div class="list-group">
-			<a class="list-group-item active">
-				<h5 class="list-group-item-heading">
-					标签管理
-				</h5>
-			</a>
-			<a href="{:url('admin/tag/add')}" class="list-group-item">
-				<p class="list-group-item-text">
-					添加标签
-				</p>
-			</a>
-			<a href="{:url('admin/tag/index')}" class="list-group-item">
-				<p class="list-group-item-text">
-					标签列表
-				</p>
-			</a>
-		</div>
-		<div class="list-group">
-			<a class="list-group-item active">
-				<h5 class="list-group-item-heading">
-					分类管理
-				</h5>
-			</a>
-			<a href="{:url('admin/category/add')}" class="list-group-item">
-				<p class="list-group-item-text">
-					添加分类
-				</p>
-			</a>
-			<a href="{:url('admin/category/index')}" class="list-group-item">
-				<p class="list-group-item-text">
-					分类列表
-				</p>
-			</a>
-		</div>
-	</div>
 
-	<div id='commentList' class="collapse">
-		<div class="list-group">
-			<a class="list-group-item active">
-				<h5 class="list-group-item-heading">
-					评论管理
-				</h5>
-			</a>
-			<a href="{:url('admin/comment/index')}" class="list-group-item">
-				<p class="list-group-item-text">
-					评论列表
-				</p>
-			</a>
-			
-		</div>
-	</div>
+<div class="dropdown">
+	<button type="button" class="btn dropdown-toggle" id="dropdownMenu1" 
+			data-toggle="dropdown">
+		内容管理
+		<span class="caret"></span>
+	</button>
+	<ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenu1">
+		<li role="presentation" class="dropdown-header">文章管理</li>
+		<li role="presentation" >
+			<a role="menuitem" tabindex="-1" href="{:url('admin/Article/add')}">添加文章</a>
+		</li>
+		<li role="presentation">
+			<a role="menuitem" tabindex="-1" href="{:url('admin/Article/index')}">文章列表</a>
+		</li>
+		<li role="presentation" class="divider"></li>
+		<li role="presentation" class="dropdown-header">标签管理</li>
+		<li role="presentation">
+			<a role="menuitem" tabindex="-1" href="{:url('admin/Tag/add')}">添加标签</a>
+		</li>
+		<li role="presentation">
+			<a role="menuitem" tabindex="-1" href="{:url('admin/Tag/index')}">标签列表</a>
+		</li>
+		<li role="presentation" class="divider"></li>
+		<li role="presentation" class="dropdown-header">分类管理</li>
+		<li role="presentation">
+			<a role="menuitem" tabindex="-1" href="{:url('admin/Category/add')}">添加分类</a>
+		</li>
+		<li role="presentation">
+			<a role="menuitem" tabindex="-1" href="{:url('admin/Category/index')}">分类列表</a>
+		</li>
+	</ul>
+</div>
+<br>
+<div class="dropdown">
+	<button type="button" class="btn dropdown-toggle" id="dropdownMenu1" 
+			data-toggle="dropdown">
+		评论管理
+		<span class="caret"></span>
+	</button>
+	<ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenu1">
+		<li role="presentation" class="dropdown-header">评论集合</li>
+		<li role="presentation" >
+			<a role="menuitem" tabindex="-1" href="{:url('admin/Comment/index')}">评论列表</a>
+		</li>
+	</ul>
+</div>
+<br>
+<div class="dropdown">
+	<button type="button" class="btn dropdown-toggle" id="dropdownMenu1" 
+			data-toggle="dropdown">
+		回收管理
+		<span class="caret"></span>
+	</button>
+	<ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenu1">
+		<li role="presentation" class="dropdown-header">回收集合</li>
+		<li role="presentation" >
+			<a role="menuitem" tabindex="-1" href="{:url('admin/Recycle/article')}">已删文章</a>
+		</li>
+		<li role="presentation" >
+			<a role="menuitem" tabindex="-1" href="{:url('admin/Recycle/comment')}">已删评论</a>
+		</li>
+		<li role="presentation" >
+			<a role="menuitem" tabindex="-1" href="{:url('admin/Recycle/link')}">已删友链</a>
+		</li>
+	</ul>
+</div>
+<br>
+<div class="dropdown">
+	<button type="button" class="btn dropdown-toggle" id="dropdownMenu1" 
+			data-toggle="dropdown">
+		网站设置
+		<span class="caret"></span>
+	</button>
+	<ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenu1">
+		<li role="presentation" class="dropdown-header">友情链接</li>
+		<li role="presentation" >
+			<a role="menuitem" tabindex="-1" href="{:url('admin/Link/add')}">添加友链</a>
+		</li>
+		<li role="presentation" >
+			<a role="menuitem" tabindex="-1" href="{:url('admin/Link/index')}">友链列表</a>
+		</li>
+	</ul>
+</div>
 
-	<div id='recycleList' class="collapse">
-		<div class="list-group">
-			<a class="list-group-item active">
-				<h5 class="list-group-item-heading">
-					回收管理
-				</h5>
-			</a>
-			<a href="{:url('admin/recycle/article')}" class="list-group-item">
-				<p class="list-group-item-text">
-					已删文章
-				</p>
-			</a>
-			<a href="{:url('admin/recycle/comment')}" class="list-group-item">
-				<p class="list-group-item-text">
-					已删评论
-				</p>
-			</a>
-			<a href="{:url('admin/recycle/link')}" class="list-group-item">
-				<p class="list-group-item-text">
-					已删友链
-				</p>
-			</a>
-		</div>
-	</div>
-		
-	<div id='setupList' class="collapse">
-		<div class="list-group">
-			<a class="list-group-item active">
-				<h5 class="list-group-item-heading">
-					友情链接
-				</h5>
-			</a>
-			<a href="{:url('admin/link/add')}" class="list-group-item">
-				<p class="list-group-item-text">
-					添加友链
-				</p>
-			</a>
-			<a href="{:url('admin/link/index')}" class="list-group-item">
-				<p class="list-group-item-text">
-					友链列表
-				</p>
-			</a>
-		</div>
-	</div>
 {/block}
 </div>
 <!--左侧区域结束-->

@@ -17,9 +17,9 @@
             <td>{$tag.tid}</td>
             <td>{$tag.tname}</td>
             <td> 
-                <a href="{:url('admin/tag/edit',['tid'=>$tag.tid,'tname'=>$tag.tname])}">修改</a>
+                <a href="{:url('admin/Tag/edit',['tid'=>$tag.tid,'tname'=>$tag.tname])}">修改</a>
                  | 
-                <a href="javascript:if(confirm('确定要删除吗?')) location='{:url('admin/tag/delete',['tid'=>$tag.tid])}'">删除</a>
+                <a href="javascript:if(confirm('确定要删除吗?')) location='{:url('admin/Tag/delete',['tid'=>$tag.tid])}'">删除</a>
             </td>
         </tr>
         {/volist}

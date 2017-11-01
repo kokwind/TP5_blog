@@ -23,9 +23,9 @@
             <td>{$link.url}</td>
             <th>{if condition="$link.is_show == 1"} √ {else /} × {/if}</th>
             <td> 
-            <a href="{:url('admin/link/recycle',['lid'=>$link.lid,'status'=>0])}">恢复</a>
+            <a href="{:url('admin/Link/recycle',['lid'=>$link.lid,'status'=>0])}">恢复</a>
              | 
-            <a href="javascript:if(confirm('确定要删除吗?')) location='{:url('admin/link/recycle',['lid'=>$link.lid,'status'=>0])}'">彻底删除</a>
+            <a href="javascript:if(confirm('确定要删除吗?')) location='{:url('admin/Link/recycle',['lid'=>$link.lid,'status'=>0])}'">彻底删除</a>
             </td>
         </tr>
         {/volist}

@@ -2,6 +2,7 @@
 namespace app\admin\controller;
 use think\Controller;
 use app\admin\model\Index as AdminIndex;
+use think\Session;
 
 class Index extends Controller
 {

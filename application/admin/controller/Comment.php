@@ -1,12 +1,14 @@
 <?php
 namespace app\admin\controller;
-use think\Controller;
+use app\admin\controller\Base;
 use app\common\model\Comment as AdminComment;
 use think\Request;          //获取当前请求信息
+use think\Session;
 
-class Comment extends Controller
+class Comment extends Base
 {
     //实现文章评论的相关操作
+
     public function index()
     {
         $commentModel = new AdminComment;

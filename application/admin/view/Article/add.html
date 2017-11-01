@@ -39,11 +39,10 @@
 
 {block name="main"}
 
-<div class="container">
-    <form action="add" method="post">
+    <form action="{:url('admin/Article/add')}" method="post">
         <!--用于判断是否有请求-->
         <input type="hidden" name="request" value="addpost">
-
+        
         <div class="row">
             <div class="col-md-3 " style="width:180px;height:25px">
                 <div class="input-group">
@@ -75,11 +74,13 @@
             </div>
         </div>
         <br>
+        
         <div class="row">
             <div class="col-md-10 ">
                 <div class="input-group">
                     <span class="input-group-addon">标签</span>
                     <ul class="list-unstyle list-inline">
+                        <li></li>
                         {volist name='allTag' id='tag'}
                         <li><input type="checkbox" name="tid[]" value="{$tag.tid}">{$tag.tname}</li>
                         {/volist}
@@ -88,6 +89,7 @@
             </div>
         </div>
         <br>
+        
         <div class="row">
             <div class="col-md-4 ">
                 <div class="input-group">
@@ -97,29 +99,27 @@
             </div>
         </div>
         <br>
+        
         <div class="row">
             <div class="col-md-6">
-                <form role="form">
-                    <div class="form-group">
-                        <label for="name">文本框</label>
-                        <textarea name="description" id="description" class="form-control" rows="3" placeholder="可以不填，如不填；则截取文章内容前100字为描述"></textarea>
-                    </div>
-                </form>
+                <div class="form-group">
+                    <label for="description">文本框</label>
+                    <textarea name="description" id="description" class="form-control" rows="3" placeholder="可以不填，如不填；则截取文章内容前100字为描述"></textarea>
+                </div>
             </div>
         </div>
         <br>  
         <div class="row">
-            <div id="markdown" class="text-center">内容MarkDown解析器</div>
-            
-                <div class="row">
-                    <div class="col-sm-6 col-lg-6 col-md-6">
-                        <textarea id="md" name="content" class="form-control"  placeholder="请输入Markdown代码"></textarea>
-                    </div>
-                    <div id="html" class="col-lg-6 col-sm-6 col-md-6"></div>
+            <div class="col-md-10">
+                <div id="markdown" class="text-center">内容MarkDown解析器</div>
+                <div class="col-md-6">
+                    <textarea id="md" name="content" class="form-control"  placeholder="请输入Markdown代码"></textarea>
                 </div>
-            
+                <div id="html" class="col-md-6"></div>
+               
+            </div>
         </div>
-
+        <br>
         <div class="row">
             <div class="col-md-4">
                 <div class="form-group">
@@ -129,7 +129,7 @@
                 </div>
             </div>
         </div>
-
+        <br>
         <div class="row">
             <div class="col-md-4">
                 <div class="form-group">
@@ -139,7 +139,7 @@
                 </div>
             </div>
         </div>
-
+        <br>
         <div class="row">
             <div class="col-md-4">
                 <div class="form-group">
@@ -149,6 +149,7 @@
                 </div>
             </div>
         </div>
+        <br>
         
         <div class="row">
             <div class="col-md-4">
@@ -156,7 +157,7 @@
             </div>
         </div>
     </form>
-<div>
+
 
 <script>
     $("#md").on("keyup blur",function () {
