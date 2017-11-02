@@ -13,21 +13,27 @@ class Login extends Controller
     {
         $request = Request::instance();
         $method = $request->method();
-
+        $data = $request->except(['request']);
+        
         if($method == 'POST'){
             //判断登陆信息
-            $userIP = $request->ip();
-            $data = $request->except(['request']);
-            $data['ip'] = $userIP;
-            $userModel = new AdminUser;
-            $resLogin = $userModel->checkUser($data);
-            if($resLogin){
-                //登陆成功
-                Session::set('name',$data['username']);
-                return $this->redirect('Index/index');      //重定向
+
+            if(!captcha_check($data['passcode'])){
+                //验证失败
+                return $this->error('验证码错误!');
             }else{
-                return $this->error('用户名或者密码错误！','Login/login');
-            }
+                $userIP = $request->ip();
+                $data['ip'] = $userIP;
+                $userModel = new AdminUser;
+                $resLogin = $userModel->checkUser($data);
+                if($resLogin){
+                    //登陆成功
+                    Session::set('name',$data['username']);
+                    return $this->redirect('Index/index');      //重定向
+                }else{
+                    return $this->error('用户名或者密码错误！','Login/login');
+                }
+            } 
         }else{
             return $this->fetch('Login/login');
         }

@@ -15,8 +15,8 @@
 <body>
     
 <div id="login_frame">  
-    <h3>后台用户登陆</h3>
-    <br>
+    <h4>后台用户登陆</h4>
+
     <form method="post" action="{:url('admin/Login/login')}" onsubmit="return login()">  
         <input type="hidden" name="request" value="loginpost">
         <div class="row">
@@ -34,6 +34,17 @@
                     <span class="input-group-addon">密&nbsp;&nbsp;码</span>
                     <input type="password" class="form-control" name="password" id="password">
                 </div>
+            </div>
+        </div>
+        <br>
+        <div class="row">
+            <div class="col-md-10 col-md-offset-1">
+                <div class="input-group">
+                    <span class="input-group-addon">验证码</span>
+                    <input type="text" class="form-control" name="passcode" id="passcode" style="width:100px;float:left">
+                    <img src="{:captcha_src()}" alt="captcha" class="passcode" style="width:130px;height:34px;cursor:pointer;float:right" onclick="this.src=this.src+'?'"/>
+                </div>
+                
             </div>
         </div>
         <br>

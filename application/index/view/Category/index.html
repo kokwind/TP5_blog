@@ -29,11 +29,12 @@
         <!--第一篇博客显示-->
             <article>
                 <header>
-                    <span class="octicon octicon-calendar"></span>&nbsp;<span>{$articleNow.addtime|date="Y-m-d",###}</span>
+                    
                 </header>
                 <div class="module" >
                     <a class="title" href="{:url('index/Index/article',['aid'=>$articleNow.aid])}">{$articleNow.title}</a>
-                    <p>可能为空{$articleNow.description}</p>
+                    <span class="octicon octicon-calendar"></span>&nbsp;<span>{$articleNow.addtime|date="Y-m-d",###}</span>
+                    <p>{$articleNow.description}</p>
                     <a class="readmore" href="{:url('index/Index/article',['aid'=>$articleNow.aid])}">Read More</a>
                     
                     <footer>
