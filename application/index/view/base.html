@@ -103,7 +103,7 @@
                 {php}
                 $categoryTotal = model('Category')->getAllCategory();
                 foreach($categoryTotal as $k => $v){
-                    echo "<div class='row'><a href='/index/Index/categoryList/cid/".$v['cid']."'><div class='col-md-8 col-xs-8 col-sm-8' >".$v['cname']."</div></a><div class='col-md-4' >".$v['num']."</div></div>";
+                    echo "<div class='row'><a href='/categoryList/".$v['cid']."'><div class='col-md-8 col-xs-8 col-sm-8' >".$v['cname']."</div></a><div class='col-md-4' >".$v['num']."</div></div>";
                 }
                 {/php}
             </div>
@@ -116,7 +116,7 @@
                 $data = model('Archive')->getAllArchive();
                 $archiveTotal = $data['yearNum'];
                 foreach($archiveTotal as $k => $v){
-                    echo "<div class='row'><a href='/index/Index/archive.html#".$v['year']."'><div class='col-md-8 col-xs-8 col-sm-8' >".$v['year']."</div></a><div class='col-md-4' >".$v['num']."</div></div>";
+                    echo "<div class='row'><a href='/archive.html#".$v['year']."'><div class='col-md-8 col-xs-8 col-sm-8' >".$v['year']."</div></a><div class='col-md-4' >".$v['num']."</div></div>";
                 }
                 {/php}
             </div>
@@ -129,7 +129,7 @@
                     {php}
                     $tagTotal = model('Tag')->getAllTag();
                     foreach($tagTotal as $k => $v){
-                        echo "<div class='col-md-6 col-xs-6 col-sm-6' ><a href='/index/Index/tag.html#".$v['tid']."'><span>".$v['tname']."</span>&nbsp;<span>".$v['num']."</span></a></div>";
+                        echo "<div class='col-md-6 col-xs-6 col-sm-6' ><a href='/tag.html#".$v['tid']."'><span>".$v['tname']."</span>&nbsp;<span>".$v['num']."</span></a></div>";
                     }
                     {/php}
                 </div>

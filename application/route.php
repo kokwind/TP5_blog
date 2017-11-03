@@ -17,5 +17,13 @@ return [
         ':id'   => ['index/hello', ['method' => 'get'], ['id' => '\d+']],
         ':name' => ['index/hello', ['method' => 'post']],
     ],
-
+    // 路由参数name为可选
+    'hello/[:name]' => 'index/hello',
+     // 添加路由规则 路由到 index控制器的hello操作方法
+     'index/[:name]' => 'index/index/index',
+     'article/[:aid]' => 'index/index/article',
+     'archive/[:year]' => 'index/index/archive',
+     'category/[:cid]' => 'index/index/category',
+     'categoryList/[:cid]' => 'index/index/categoryList',
+     'tag/[:tid]' => 'index/index/tag',
 ];

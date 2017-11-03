@@ -1,0 +1,35 @@
+{extend name="base" /}
+
+{block name="title"}后台管理{/block}
+
+{block name="main"}
+
+<form action="{:url('admin/ArticlePic/add')}" method="post" enctype="multipart/form-data">
+    <!--用于判断是否有请求-->
+    <input type="hidden" name="request" value="addpost">
+    
+    <table class="table table-bordered table-hover">
+        
+        <tr>
+            <th>文章aid</th>
+            <td><input class="form-control modal-sm" type="text" name="aid"></td>
+        </tr>
+        
+        <tr>
+            <th>上传</th>
+            <td><input type="file" id="pic" name="pic"></td>
+        </tr>
+
+        <tr>
+            <th>描述</th>
+            <td><textarea class="form-control modal-sm" name="description"></textarea></td>
+        </tr>
+        
+        <tr>
+            <th></th>
+            <td> <input class="btn btn-success" type="submit" value="提交"></td>
+        </tr>
+    </table>
+</form>
+
+{/block}

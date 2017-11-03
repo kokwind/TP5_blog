@@ -1,7 +1,6 @@
 <?php
 namespace app\index\controller;
 use think\Controller;
-//use app\index\model\Index as IndexIndex;
 use think\Request;          //获取当前请求信息
 use app\common\model\Article as IndexArticle;
 use app\index\model\Archive as IndexArchive;
@@ -12,6 +11,7 @@ use app\common\model\Comment as IndexComment;
 
 class Index extends Controller
 {
+
     public function index()
     {
         //获取首页文章的全部分页信息

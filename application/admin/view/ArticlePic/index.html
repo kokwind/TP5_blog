@@ -1,0 +1,33 @@
+{extend name="base" /}
+
+{block name="title"}后台管理{/block}
+
+{block name="main"}
+            
+    <table class="table table-bordered table-striped table-hover table-condensed">
+            
+        <thead>
+        <tr>
+            <th width="10%">ap_id</th>
+            <th width="50%">路径</th>
+            <th width="10%">文章id</th>
+            <th width="20%">描述</th>
+            <th width="10%">操作</th>
+        </tr>
+        </thead>
+        
+        {volist name='picList' id='pic'}
+        <tr>
+            <td>{$pic.ap_id}</td>
+            <td>{$pic.path}</td>
+            <td>{$pic.aid}</td>
+            <td>{$pic.description}</td>
+            <td> 
+                <a href="javascript:if(confirm('确定要删除吗?')) location='{:url('admin/ArticlePic/delete',['ap_id'=>$pic.ap_id])}'">删除</a>
+            </td>
+        </tr>
+        {/volist}
+        
+    </table>
+
+{/block}
