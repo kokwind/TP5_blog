@@ -20,17 +20,15 @@
 
 <div class="main">
     <!--开始正文页面的显示-->
-    <div class="row index">
-        <div class="col-sm-offset-1">
+    <!--<div class="row index">-->
+        <!--<div class="col-sm-offset-1">-->
 
         
         {volist name='articleAll' id='articleNow'}
         <section class="category-slice" post-cate="All">
         <!--第一篇博客显示-->
             <article>
-                <header>
-                    
-                </header>
+                <!--<header></header>-->
                 <div class="module" >
                     <a class="title" href="{:url('index/Index/article',['aid'=>$articleNow.aid])}">{$articleNow.title}</a>
                     <span class="octicon octicon-calendar"></span>&nbsp;<span>{$articleNow.addtime|date="Y-m-d",###}</span>
@@ -69,8 +67,8 @@
             <!--预留分页-->
         </nav>
          
-        </div>
-    </div>
+        <!--</div>-->
+    <!--</div>-->
 </div>
 
 {/block}
