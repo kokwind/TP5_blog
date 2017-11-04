@@ -4,7 +4,7 @@ function comment(obj){
     var tarPid = $(obj).attr('pid');
     var thisUrl = $('#usercomment').attr('url');
     var thisAid = $('#usercomment').attr('aid');
-    
+    var sendData = {'aid':thisAid,'content':content,'pid':tarPid};
     
     //点击评论，先删除下面的回复框
     $('#reply-textarea').remove();
@@ -12,7 +12,8 @@ function comment(obj){
     $.ajax({  
                 type:"post",  
                 url:thisUrl,  
-                data:{ "aid":thisAid,"content":content,"pid":tarPid },//这里data传递过去的是序列化以后的字符串  
+                data:sendData,//这里data传递过去的是序列化以后的字符串  
+                dataType:'json',
                 success:function(mes){
                     //直接评论，就是评论本文，pid为0，最顶级  
                     var response = JSON.parse(mes);     //回应对象

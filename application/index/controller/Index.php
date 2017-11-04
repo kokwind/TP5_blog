@@ -180,23 +180,27 @@ class Index extends Controller
         $message['pid'] = $contentAid['pid'];           //评论的父级 pid
         $message['content'] = $contentAid['content'];   //评论内容
         $message['ouip'] = $request->ip();      //评论用户ip
+        
         if($message['content'] != ""){
             //评论内容不为空
             $commentModel = new IndexComment;
             $responseList = $commentModel->replyComment($message);
-           
+            
             if($responseList){
                 $responseList = json_encode($responseList);
+                
                 return json($responseList);
             }else{
                 $err = ['cmtid'=>0];
                 $err = json_encode($err);
+                
                 return json($err);
             }   
 
         }else{
             $err = ['cmtid'=>0];
             $err = json_encode($err);
+            
             return json($err);
         }
         

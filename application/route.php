@@ -26,4 +26,5 @@ return [
      'category/[:cid]' => 'index/index/category',
      'categoryList/[:cid]' => 'index/index/categoryList',
      'tag/[:tid]' => 'index/index/tag',
+     'comment/[:cmtid]' => 'index/index/comment',
 ];

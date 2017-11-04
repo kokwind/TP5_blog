@@ -9,10 +9,10 @@
 
 <link rel="stylesheet" type="text/css" href="{:url('/static/css/article-list.css','','')}" />
 <!-- 引入jquery文件，务必在bootstrap.min.js之前引入 -->
-<script src="{:url('/static/bootstrap/js/jquery-3.2.1.js','','')}" ></script>
+<script type="text/javascript" src="{:url('/static/bootstrap/js/jquery-3.2.1.js','','')}" ></script>
 
 <!-- 最新的 Bootstrap 核心 JavaScript 文件 -->
-<script src="{:url('/static/bootstrap/js/bootstrap.min.js','','')}" ></script>
+<script type="text/javascript" src="{:url('/static/bootstrap/js/bootstrap.min.js','','')}" ></script>
 <script type="text/javascript" src="{:url('/static/js/script.js','','')}"></script>
 <script type="text/javascript" src="{:url('/static/js/comment.js','','')}"></script>
 
@@ -93,7 +93,7 @@
                                 </div>
                             </div>
                             <!--读者评论显示-->
-                            <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 b-user-comment" id="usercomment" url="{:url('index/index/comment')}" aid="{$article.aid}">
+                            <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 b-user-comment" id="usercomment" url="{:url('/comment')}" aid="{$article.aid}">
 
                                 {volist name='parentComment' id='parCom'}
                                 <div id="comment-{$parCom.cmtid}" class="row b-user b-parent">
